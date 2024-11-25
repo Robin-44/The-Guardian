@@ -4,7 +4,6 @@ import { AuthService } from '@auth0/auth0-angular';
 import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Router } from '@angular/router';
-
 import {
   NgbCollapse,
   NgbDropdown,
@@ -12,7 +11,7 @@ import {
   NgbDropdownToggle,
 } from '@ng-bootstrap/ng-bootstrap';
 import { RouterLink } from '@angular/router';
-
+import { SurveyService } from '../../../survey.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -38,23 +37,41 @@ export class NavBarComponent {
   constructor(
     public auth: AuthService,
     @Inject(DOCUMENT) private doc: Document,
-    private router: Router
+    private router: Router,
+    private surveyService: SurveyService
   ) {}
-      
+
   ngOnInit(): void {
-    this.auth.isAuthenticated$.subscribe((isAuthenticated) => {
-      if (isAuthenticated) {
-        this.router.navigate(['/dashboard']);
+    // Vérifiez si l'utilisateur est authentifié et récupérez son email
+    this.auth.user$.subscribe(user => {
+      if (user) {
+        const userEmail = user.email;  // Récupérer l'email de l'utilisateur
+        console.log('Email utilisateur:', userEmail);
+
+        // Appel pour ajouter l'utilisateur dans la base de données
+        this.addUser(userEmail);
       }
     });
   }
 
-  loginWithRedirect() {
-    this.auth.loginWithRedirect({
-      appState: { target: '/dashboard' } 
-    });
+  addUser(userEmail: string) {
+    // Créez un objet avec l'email de l'utilisateur à envoyer à l'API
+    const newUser = { userId: userEmail };
+
+    // Appel au service pour ajouter l'utilisateur dans la base de données
+    this.surveyService.addUser(newUser).subscribe(
+      (response) => {
+        console.log('Utilisateur ajouté avec succès');
+      },
+      (error) => {
+        console.error('Erreur lors de l\'ajout de l\'utilisateur:', error);
+      }
+    );
   }
-  
+
+  loginWithRedirect() {
+    this.auth.loginWithRedirect();
+  }
 
   logout() {
     this.auth.logout({ logoutParams: { returnTo: this.doc.location.origin } });

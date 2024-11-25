@@ -25,6 +25,6 @@ bootstrapApplication(AppComponent, {
           json: () => import('highlight.js/lib/languages/json'),
         },
       },
-    },
+    }
   ],
 });

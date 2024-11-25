@@ -1,0 +1,61 @@
+<div id="container" class="container mt-5">
+  <!-- Form -->
+  <div class="card shadow-lg p-4" style="max-width: 800px; margin: auto; min-height: 500px;">
+    <!-- Progress Bar -->
+    <div class="progress px-1" style="height: 4px;">
+      <div 
+        class="progress-bar" 
+        role="progressbar" 
+        [style.width]="progress + '%'" 
+        [attr.aria-valuenow]="progress" 
+        aria-valuemin="0" 
+        aria-valuemax="100">
+      </div>
+    </div>
+    <br>
+
+    <!-- Step Circles -->
+    <div class="step-container d-flex justify-content-between mb-4">
+      <div class="step-circle" [class.active]="step === 1" (click)="displayStep(1)">1</div>
+      <div class="step-circle" [class.active]="step === 2" (click)="displayStep(2)">2</div>
+      <div class="step-circle" [class.active]="step === 3" (click)="displayStep(3)">3</div>
+    </div>
+
+    <h3 class="text-center mb-4 font-weight-bold">Formulaire de Santé</h3>
+
+    <!-- Étape 1 : Allergies -->
+    <div *ngIf="step === 1" class="form-step">
+      <h5 class="font-weight-bold">Étape 1 : Allergies</h5>
+      <br>
+      <label for="allergies" class="form-label">Avez-vous des allergies ?</label>
+      <div class="form-group text-center">
+        <input type="text" id="allergies" class="form-control form-control-sm" [(ngModel)]="formData['allergies']" />
+      </div>
+      <button class="btn btn-primary mt-3" (click)="nextStep()">Suivant</button>
+    </div>
+
+    <!-- Étape 2 : Exercice -->
+    <div *ngIf="step === 2" class="form-step">
+      <h5 class="font-weight-bold">Étape 2 : Exercice</h5>
+      <br>
+      <label for="exercise" class="form-label">À quelle fréquence faites-vous de l'exercice ?</label>
+      <div class="form-group text-center">
+        <input type="text" id="exercise" class="form-control form-control-sm" [(ngModel)]="formData['exercise']" />
+      </div>
+      <button class="btn btn-secondary mt-3" (click)="prevStep()">Précédent</button>
+      <button class="btn btn-primary mt-3" (click)="nextStep()">Suivant</button>
+    </div>
+
+    <!-- Étape 3 : Régime alimentaire -->
+    <div *ngIf="step === 3" class="form-step">
+      <h5 class="font-weight-bold">Étape 3 : Régime alimentaire</h5>
+      <br>
+      <label for="diet" class="form-label">Suivez-vous un régime alimentaire spécifique ?</label>
+      <div class="form-group text-center">
+        <input type="text" id="diet" class="form-control form-control-sm" [(ngModel)]="formData['diet']" />
+      </div>
+      <button class="btn btn-secondary mt-3" (click)="prevStep()">Précédent</button>
+      <button class="btn btn-success mt-3" (click)="submitForm()">Soumettre</button>
+    </div>
+  </div>
+</div>

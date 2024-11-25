@@ -1,5 +1,5 @@
   <div class="nav-container">
-    <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <nav class="navbar navbar-expand-md navbar-white bg-white">
       <div class="container">
         <div class="navbar-brand logo"></div>
         <button
@@ -24,9 +24,6 @@
             
             <li class="nav-item">
               <a routerLink="/" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item" *ngIf="auth.isAuthenticated$ | async">
-              <a routerLink="external-api" class="nav-link">External API</a>
             </li>
             <li class="nav-item" *ngIf="auth.isAuthenticated$ | async">
               <button

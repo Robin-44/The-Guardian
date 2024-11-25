@@ -23,8 +23,10 @@
               "src/assets"
             ],
             "styles": [
+              "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
-              "node_modules/highlight.js/styles/monokai-sublime.css"
+              "node_modules/highlight.js/styles/monokai-sublime.css",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "scripts": [],
             "vendorChunk": true,
@@ -93,9 +95,14 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"
+              "@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.css",
+              "src/assets/css/bootstrap.min.css",
+              "src/assets/css/style.css"
             ],
-            "scripts": []
+            "scripts": [ "src/assets/js/bootstrap.bundle.min.js",
+              "src/assets/js/plugins/apexcharts.min.js",
+              "src/assets/js/pages/dashboard-default.js"]
           }
         },
         "e2e": {
