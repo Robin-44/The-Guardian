@@ -6,6 +6,7 @@ import { ErrorComponent } from './pages/error/error.component';
 import { authGuardFn } from '@auth0/auth0-angular';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SurveyFormComponent } from './survey-form/survey-form.component';
+import { CalendarComponent } from './calendar/calendar.component';
 
 export const routes: Routes = [
   {
@@ -37,5 +38,11 @@ export const routes: Routes = [
     component: SurveyFormComponent,
     canActivate: [authGuardFn], 
   },
+    { 
+      path: 'calendar',
+      component: CalendarComponent,
+      canActivate: [authGuardFn], 
+  },
+
   { path: '**', redirectTo: '/survey-form' },
 ];

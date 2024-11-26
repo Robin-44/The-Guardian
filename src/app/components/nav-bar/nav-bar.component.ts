@@ -41,33 +41,43 @@ export class NavBarComponent {
     private surveyService: SurveyService
   ) {}
 
-  ngOnInit(): void {
-    // Vérifiez si l'utilisateur est authentifié et récupérez son email
-    this.auth.user$.subscribe(user => {
-      if (user) {
-        const userEmail = user.email;  // Récupérer l'email de l'utilisateur
-        console.log('Email utilisateur:', userEmail);
+ 
+  
+  addUser(userEmail: string) {
+    const newUser = { userId: userEmail };
+  
+    this.surveyService.authUser(newUser.userId).subscribe(
+      (response) => {
+        console.log('Réponse du backend :', response);
+  
+        // Redirection en fonction de survey_completed
+        if (response.surveyCompleted === 0) {
+          console.log('Redirection vers le formulaire de santé');
+          this.router.navigate(['/survey-form']);
+        } else {
+          console.log('Redirection vers le tableau de bord');
+          this.router.navigate(['/dashboard']);
+        }
+      },
+      (error) => {
+        console.error('Erreur lors de la gestion de l\'authentification :', error);
+      }
+    );
+  }
 
-        // Appel pour ajouter l'utilisateur dans la base de données
+  ngOnInit(): void {
+    // Vérifiez si l'utilisateur est authentifié
+    this.auth.user$.subscribe((user) => {
+      if (user) {
+        const userEmail = user.email; // Récupérer l'email de l'utilisateur
+        console.log('Email utilisateur:', userEmail);
+  
+        // Appel pour ajouter l'utilisateur et rediriger en fonction du statut
         this.addUser(userEmail);
       }
     });
   }
-
-  addUser(userEmail: string) {
-    // Créez un objet avec l'email de l'utilisateur à envoyer à l'API
-    const newUser = { userId: userEmail };
-
-    // Appel au service pour ajouter l'utilisateur dans la base de données
-    this.surveyService.addUser(newUser).subscribe(
-      (response) => {
-        console.log('Utilisateur ajouté avec succès');
-      },
-      (error) => {
-        console.error('Erreur lors de l\'ajout de l\'utilisateur:', error);
-      }
-    );
-  }
+  
 
   loginWithRedirect() {
     this.auth.loginWithRedirect();

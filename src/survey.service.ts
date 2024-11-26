@@ -11,10 +11,16 @@ export class SurveyService {
 
   constructor(private http: HttpClient) {}
 
-  // Fonction pour ajouter un utilisateur
   addUser(newUser: { userId: string }): Observable<any> {
-    return this.http.post(this.apiUrl, newUser);
+    return this.http.post<any>(this.apiUrl, newUser); 
   }
+  authUser(userId: string): Observable<{ surveyCompleted: number }> {
+    return this.http.post<{ surveyCompleted: number }>(
+      'http://localhost:3000/api/auth-user',
+      { userId }
+    );
+  }
+
 
   // Vérifier le statut du formulaire
   checkSurvey(userId: string): Observable<{ surveyCompleted: boolean }> {
@@ -22,7 +28,8 @@ export class SurveyService {
   }
 
   // Soumettre le formulaire
-  submitForm(formData: { userId: string; allergies: string; exercise: string; diet: string }): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/submit-form`, formData);
+  submitForm(surveyData: any): Observable<void> {
+    return this.http.post<void>('http://localhost:3000/api/submit-survey', surveyData);
   }
+  
 }

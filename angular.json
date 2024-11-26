@@ -98,7 +98,9 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css",
               "src/assets/css/bootstrap.min.css",
-              "src/assets/css/style.css"
+              "src/assets/css/style.css",
+              "node_modules/@fullcalendar/core/main.css",
+              "node_modules/@fullcalendar/daygrid/main.css"
             ],
             "scripts": [ "src/assets/js/bootstrap.bundle.min.js",
               "src/assets/js/plugins/apexcharts.min.js",
