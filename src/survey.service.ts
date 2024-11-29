@@ -17,4 +17,22 @@ export class SurveyService {
   submitForm(surveyData: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/submit-survey`, surveyData);
   }
+
+  saveSubscription(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/subscribe`, data);
+  }
+
+  removeSubscription(token: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/unsubscribe/${token}`);
+  }
+
+  getSubscriptionStatus(token: string): Observable<{ isSubscribed: boolean }> {
+    return this.http.get<{ isSubscribed: boolean }>(`${this.baseUrl}/subscription-status/${token}`);
+  }
+
+  testNotification(token: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/test-notification`, { token });
+  }
+  
+  
 }

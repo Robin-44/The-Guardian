@@ -26,4 +26,8 @@ export class DashboardComponent implements OnInit {
   goToCalendar(): void {
     this.router.navigate(['/calendar']);
   }
+  goToSettings(): void {
+    this.router.navigate(['/settings']);
+  }
+
 }

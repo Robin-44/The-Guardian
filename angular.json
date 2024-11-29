@@ -20,7 +20,9 @@
             "tsConfig": "tsconfig.app.json",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",
@@ -34,7 +36,9 @@
             "buildOptimizer": false,
             "sourceMap": true,
             "optimization": false,
-            "namedChunks": true
+            "namedChunks": true,
+            "serviceWorker": true,
+            "ngswConfigPath": "src/ngsw-config.json"
           },
           "configurations": {
             "production": {
@@ -44,6 +48,8 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
+              "serviceWorker": true, 
+              "ngswConfigPath": "src/ngsw-config.json",
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -92,7 +98,8 @@
             "karmaConfig": "karma.conf.js",
             "assets": [
               "src/favicon.ico",
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "@angular/material/prebuilt-themes/indigo-pink.css",

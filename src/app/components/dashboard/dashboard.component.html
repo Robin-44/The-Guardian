@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
     <html lang="fr">
     <head>
         <meta charset="UTF-8">
@@ -91,7 +91,7 @@
 
             .dashboard-header {
                 font-size: 2rem;
-                color: #34495e;
+                color: #5d87ff;
                 margin-bottom: 30px;
             }
 
@@ -147,21 +147,21 @@
             <div class="ressources">
                 <span>RESSOURCES</span>
             </div>
-            <a href="#">
+            <a routerLink="/medications">
                 <span class="icon"><i class="bi bi-capsule"></i></span> Médicaments
             </a>
-            <a href="#">
-                <span class="icon"><i class="bi bi-calendar2-check"></i></span> Rendez-vous
+            <a routerLink="/calendar">
+                <span class="icon"><i class="bi bi-calendar2-check"></i></span> Calendrier
             </a>
-            <a href="#">
+            <a routerLink="/questionnaires">
                 <span class="icon"><i class="bi bi-clipboard"></i></span> Questionnaires
             </a>
-            <a href="#">
+            <a class="nav-link" (click)="goToSettings()">
                 <span class="icon"><i class="bi bi-gear"></i></span> Paramètres
-            </a>
+              </a>
+              
         </div>
         
-
         <!-- Main Content -->
         <div class="content">
             <div class="container">
@@ -179,8 +179,8 @@
                           <div class="card">
                             <img src="assets/images/equipe.jpg" class="card-img-top" alt="..." width="100%">
                             <div class="card-body">
-                              <h5 class="card-title">Card title</h5>
-                              <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                              <h5 class="card-title">Une équipe pour vous accompagner</h5>
+                              <p class="card-text">Bénéficiez du soutien d'une équipe médicale dévouée, prête à répondre à vos besoins et à vous accompagner au quotidien</p>
                             </div>
                           </div>    
                         </div>
@@ -188,8 +188,8 @@
                           <div class="card">
                             <img src="assets/images/enceinte.jpg" class="card-img-top" alt="...">
                             <div class="card-body">
-                              <h5 class="card-title">Card title</h5>
-                              <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                              <h5 class="card-title">Gérez votre santé avec facilité</h5>
+                              <p class="card-text">Utilisez nos outils interactifs pour suivre vos consultations, gérer vos médicaments et accéder à des conseils personnalisés.    </p>
                             </div>
                           </div>
                         </div>
@@ -197,8 +197,8 @@
                           <div class="card">
                             <img src="assets/images/calendar.avif"  class="card-img-top" alt="...">
                             <div class="card-body">
-                              <h5 class="card-title">Card title</h5>
-                              <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                              <h5 class="card-title">Votre calendrier de santé</h5>
+                              <p class="card-text">Accédez à vos e enregistrements, suivez vos prises de medicaments à venir, à un calendrier clair et simple.</p>
                             </div>
                           </div>
                         </div>
