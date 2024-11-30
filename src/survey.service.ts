@@ -33,6 +33,21 @@ export class SurveyService {
   testNotification(token: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/test-notification`, { token });
   }
+
+  getReminders(token: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/reminders/${token}`);
+  }  
   
+  confirmReminder(reminderId: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/confirm-reminder`, { reminderId });
+  }
+
+  addPosology(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/posology`, data);
+  }
+
+  handleNotificationResponse(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/notification-response`, data);
+  }
   
 }
