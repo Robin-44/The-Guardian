@@ -1,0 +1,32 @@
+<header id="header" class="fixed-top">
+  <div class="container d-flex align-items-center">
+    <!-- Logo -->
+    <h1 class="logo me-auto">
+      <a routerLink="/">Guardian Santé</a>
+    </h1>
+
+    <nav id="navbar" class="navbar order-last order-lg-0">
+      <ul>
+        <li><a class="nav-link scrollto" routerLink="/hero">Accueil</a></li>
+        <li><a class="nav-link scrollto" routerLink="/services">Services</a></li>
+        <li><a class="nav-link scrollto" routerLink="/departments">Départements</a></li>
+        <li><a class="nav-link scrollto" routerLink="/doctors">Médecins</a></li>
+        <li><a class="nav-link scrollto" routerLink="/contact">Contact</a></li>
+
+        <!-- Profile Section (only shown if user is authenticated) -->
+        <li class="profile-section" *ngIf="user">
+          <img [src]="user.picture" alt="Profile picture" class="nav-user-profile rounded-circle" />
+          <span>{{ user.name }}</span>
+          <button class="logout-btn" (click)="logout()">Déconnexion</button>
+        </li>
+
+        <!-- Authentication Button (only shown if user is not authenticated) -->
+        <li *ngIf="!user">
+          <button class="btn btn-primary" (click)="loginWithRedirect()">Connexion</button>
+        </li>
+      </ul>
+
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,45 @@
+/* Home Content Styles */
+.featured-services {
+    padding: 60px 0;
+  }
+  
+  .featured-services .icon-box {
+    padding: 20px;
+    color: #2c4964;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
+    transition: all ease-in-out 0.3s;
+  }
+  
+  .featured-services .icon-box i {
+    color: #1977cc;
+    font-size: 36px;
+    float: left;
+    line-height: 0;
+  }
+  
+  .featured-services .icon-box h4 {
+    margin-left: 70px;
+    font-weight: 700;
+    margin-bottom: 15px;
+    font-size: 18px;
+  }
+  
+  .featured-services .icon-box p {
+    margin-left: 70px;
+    line-height: 24px;
+    font-size: 14px;
+    margin-bottom: 0;
+  }
+  
+  .featured-services .icon-box:hover {
+    background: #1977cc;
+    color: #fff;
+  }
+  
+  .featured-services .icon-box:hover i,
+  .featured-services .icon-box:hover h4,
+  .featured-services .icon-box:hover p {
+    color: #fff;
+  }
