@@ -5,7 +5,6 @@ import { CommonModule, registerLocaleData } from '@angular/common';
 import localeFr from '@angular/common/locales/fr';
 import { FormsModule } from '@angular/forms';
 
-
 registerLocaleData(localeFr, 'fr');
 
 @Component({
@@ -14,52 +13,74 @@ registerLocaleData(localeFr, 'fr');
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css'],
   imports: [
-    CommonModule, 
-    FormsModule
+    CommonModule,
+    FormsModule,
   ],
 })
 export class CalendarComponent implements OnInit {
   currentMonth: Date = new Date();
-  calendar: any[] = []; 
-  reminders: any[] = []; 
+  calendar: any[] = [];
+  reminders: any[] = [];
+  showModal: boolean = false;
 
-  showModal: boolean = false; 
+  // Posology form data
   posology = {
     medicationName: '',
-    scheduledTime: '', 
+    scheduledTime: '',
   };
-  modalPosition = { top: '0px', left: '0px' };
 
-  openAddPosologyModal(date: Date | null, event: MouseEvent): void {
-    if (!date) {
-      console.error('Date invalide ou absente.');
-      return;
-    }
-    this.posology.scheduledTime = date.toISOString().slice(0, 16); // Pré-remplir la date-heure
-    const target = event.target as HTMLElement;
-    const rect = target.getBoundingClientRect();
-    this.modalPosition = {
-      top: `${rect.top + window.scrollY}px`,
-      left: `${rect.left + window.scrollX + rect.width}px`,
-    };
-    this.showModal = true;
-  }
-  
-  
-  closeModal(): void {
-    this.showModal = false;
-  }
+  modalPosition = { top: '0px', left: '0px' };
 
   constructor(
     private surveyService: SurveyService,
-    private auth: AuthService 
+    private auth: AuthService
   ) {}
 
   ngOnInit(): void {
     this.loadReminders();
   }
 
-  // Charger les rappels depuis l'API
+  /**
+   * Convert UTC date to local time.
+   */
+  convertToLocalTime(utcDateString: string): string {
+    const utcDate = new Date(utcDateString);
+    const localDate = new Date(utcDate.getTime() + utcDate.getTimezoneOffset() * 60000);
+    return localDate.toISOString().slice(0, 16); // Return ISO format (yyyy-MM-ddTHH:mm)
+  }
+
+  /**
+   * Open modal to add posology.
+   */
+  openAddPosologyModal(date: Date | null, event: MouseEvent): void {
+    if (!date) {
+      console.error('Date invalide ou absente.');
+      return;
+    }
+
+    // Set the modal position near the clicked date cell
+    const target = event.target as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    this.modalPosition = {
+      top: `${rect.top + window.scrollY}px`,
+      left: `${rect.left + window.scrollX + rect.width}px`,
+    };
+
+    // Pre-fill the selected date (in local time) for user convenience
+    this.posology.scheduledTime = date.toISOString().slice(0, 16); // Format yyyy-MM-ddTHH:mm
+    this.showModal = true;
+  }
+
+  /**
+   * Close the posology modal.
+   */
+  closeModal(): void {
+    this.showModal = false;
+  }
+
+  /**
+   * Load reminders from the API.
+   */
   loadReminders(): void {
     this.auth.user$.subscribe((user) => {
       if (user) {
@@ -76,9 +97,11 @@ export class CalendarComponent implements OnInit {
         console.error('Utilisateur non authentifié.');
       }
     });
-  }  
+  }
 
-  // Construire la vue du calendrier
+  /**
+   * Build calendar structure with reminders.
+   */
   buildCalendar(): void {
     const startOfMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1);
     const endOfMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
@@ -87,7 +110,7 @@ export class CalendarComponent implements OnInit {
     let week = [];
     let date = new Date(startOfMonth);
 
-    // Remplir les jours avant le début du mois
+    // Fill days before the start of the month
     while (date.getDay() !== 0) {
       week.push({ date: null, reminders: [] });
       date.setDate(date.getDate() - 1);
@@ -95,7 +118,7 @@ export class CalendarComponent implements OnInit {
 
     date = startOfMonth;
 
-    // Remplir les jours du mois
+    // Fill the days of the month
     while (date <= endOfMonth) {
       const dayReminders = this.reminders.filter((reminder) =>
         new Date(reminder.scheduledTime).toDateString() === date.toDateString()
@@ -111,10 +134,11 @@ export class CalendarComponent implements OnInit {
       date.setDate(date.getDate() + 1);
     }
 
-    // Remplir les jours après la fin du mois
+    // Fill days after the end of the month
     while (week.length < 7) {
       week.push({ date: null, reminders: [] });
     }
+
     if (week.length) {
       calendar.push(week);
     }
@@ -122,28 +146,38 @@ export class CalendarComponent implements OnInit {
     this.calendar = calendar;
   }
 
+  /**
+   * Navigate to the previous month.
+   */
   previousMonth(): void {
     this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() - 1, 1);
     this.buildCalendar();
   }
 
+  /**
+   * Navigate to the next month.
+   */
   nextMonth(): void {
     this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 1);
     this.buildCalendar();
   }
 
-  // Vérifier si une date est aujourd'hui
+  /**
+   * Check if a date is today.
+   */
   isToday(date: Date): boolean {
     const today = new Date();
     return date?.toDateString() === today.toDateString();
   }
 
-  // Confirmer un rappel
+  /**
+   * Confirm reminder as taken.
+   */
   confirmReminder(reminderId: string): void {
     const payload = { action: 'confirm', reminderId };
     this.surveyService.handleNotificationResponse(payload).subscribe({
       next: () => {
-        this.loadReminders(); // Recharger les rappels
+        this.loadReminders();
         alert('Le rappel a été confirmé comme pris.');
       },
       error: (err) => {
@@ -152,34 +186,41 @@ export class CalendarComponent implements OnInit {
     });
   }
 
-
+  /**
+   * Save posology to the backend.
+   */
   savePosology(): void {
     this.auth.user$.subscribe((user) => {
       if (user) {
+        const localDate = new Date(this.posology.scheduledTime);
+        const utcDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
+
         const payload = {
-          ...this.posology,
-          userId: user.sub, // Ajouter l'utilisateur connecté
+          userId: user.sub,
+          medicationName: this.posology.medicationName,
+          scheduledTime: utcDate.toISOString(), // Save in UTC
         };
 
         this.surveyService.addPosology(payload).subscribe({
           next: () => {
             alert('Posologie enregistrée avec succès.');
             this.showModal = false;
-            this.loadReminders(); // Recharger les rappels
+            this.loadReminders();
           },
           error: (err) => console.error('Erreur lors de l\'enregistrement de la posologie :', err),
         });
-      } else {
-        console.error('Utilisateur non authentifié.');
       }
     });
   }
 
+  /**
+   * Reprogram a reminder.
+   */
   remindLater(reminderId: string): void {
     const payload = { action: 'remind', reminderId };
     this.surveyService.handleNotificationResponse(payload).subscribe({
       next: () => {
-        this.loadReminders(); // Recharger les rappels
+        this.loadReminders();
         alert('Un rappel a été reprogrammé.');
       },
       error: (err) => {
@@ -187,5 +228,4 @@ export class CalendarComponent implements OnInit {
       },
     });
   }
-  
 }

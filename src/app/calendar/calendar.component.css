@@ -1,141 +1,81 @@
-            /* Styles personnalisés */
-            body {
-              font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          background-color: #ffffff;
-          }
+/* Styles personnalisés */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #ffffff;
+}
+.ressources {
+  font-size: 12px;
+  margin-left: 30px;
+  color: rgba(65, 64, 64, 0.87);
+}
 
-          /* Sidebar */
-          /* Sidebar */
-      .sidebar {
-          background-color: #ffffff;
-          color: rgb(4, 4, 4);
-          padding-top: 90px;
-          position: fixed;
-          top: 87px; 
-          left: 0;
-          width: 280px;
-          height: calc(100vh - 112px); 
-          z-index: 100;
-          transition: 0.3s;
-          border-right: 1px solid #e7e7e7; 
-      }
-              
-          .sidebar a {
-              color: #2e2e2e;
-              padding: 15px 20px;
-              text-decoration: none;
-              font-size: 16px;
-              display: block;
-              transition: all 0.3s ease;
-          }
+/* Contenu principal */
+.content {
+  padding: 30px;
+  transition: 0.3s;
+}
 
-          .sidebar a:hover {
-              background-color: #dde6ff;
-              color: rgb(19, 19, 19);
-              border-radius: 4px;
-              height: 60px;
-              width: 10;
-          }
+.dashboard-header {
+  font-size: 2rem;
+  color: #5d87ff;
+  margin-bottom: 30px;
+}
 
-          .sidebar a.active {
-              background-color: #5d87ff;
-              color: white;
-              border-radius: 10px;
-              width:200px;
-              height: 50px;
-              margin-left: 30px;
-              margin-top: 8px;
-          }
+/* Style des cartes */
+.card {
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  margin-bottom: 20px;
+  border: 2px solid rgb(255, 255, 255);
 
-          .sidebar .sidebar-header {
-              margin-left: 30px;
-              font-size: 12px;
-              margin-top: -50px;
-              color: rgba(65, 64, 64, 0.87);
-          }
+}
 
-          .sidebar .icon {
-              font-size: 18px;
-              margin-left: 30px;
-          }
-          .ressources {
-              font-size: 12px;
-              margin-left: 30px;
-              color: rgba(65, 64, 64, 0.87);
-          }
+/* Boutons personnalisés */
+.btn-color-custom {
+  background-color: #0e1836;
+  border-color: #0e1836;
+  border-color: #0e1836;
+  color: #ffffff;
+}
 
-          .sidebar .footer {
-              position: absolute;
-              bottom: 20px;
-              width: 100%;
-              text-align: center;
-              font-size: 14px;
-              color: #bdc3c7;
-          }
+.btn-color-custom:hover {
+  background-color: #0e1836;
+  border-color: #0e1836;
+  color: #ffffff;
+}
 
-          /* Contenu principal */
-          .content {
-              margin-left: 270px;
-              padding: 30px;
-              transition: 0.3s;
-          }
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content {
+    margin-left: 0;
+    padding: 15px;
+  }
 
-          .dashboard-header {
-              font-size: 2rem;
-              color: #5d87ff;
-              margin-bottom: 30px;
-          }
+  .sidebar {
+    position: static;
+    height: auto;
+    width: 100%;
+  }
+}
 
-          /* Style des cartes */
-          .card {
-              border-radius: 10px;
-              box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-              background-color: white;
-              margin-bottom: 20px;
-              border: 2px solid rgb(255, 255, 255); 
-
-          }
-
-          /* Boutons personnalisés */
-          .btn-color-custom {
-              background-color: #0e1836;
-              border-color: #0e1836;
-              border-color: #0e1836;
-              color: #ffffff;
-          }
-
-          .btn-color-custom:hover {
-              background-color: #0e1836;
-              border-color: #0e1836;
-              color: #ffffff;
-              }
-          /* Responsive adjustments */
-          @media (max-width: 768px) {
-              .content {
-                  margin-left: 0;
-                  padding: 15px;
-              }
-
-              .sidebar {
-                  position: static;
-                  height: auto;
-                  width: 100%;
-              }
-          }
 /* Conteneur principal du calendrier */
 .calendar-container {
-  max-width: 2800px; 
+  max-width: 2800px;
   margin: 0 auto;
   background: white;
-  border-radius: 8px; /* Coins arrondis */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */
+  border-radius: 8px;
+  /* Coins arrondis */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  /* Ombre douce */
   padding: 20px;
-  height: 900px; /* Réduire légèrement la hauteur pour éviter trop de décalage */
+  height: 900px;
+  /* Réduire légèrement la hauteur pour éviter trop de décalage */
   display: flex;
   flex-direction: column;
-  align-items: center; 
-  justify-content: space-between; 
-  overflow: hidden; 
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
 }
 
 /* Navigation du calendrier */
@@ -144,12 +84,13 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  max-width: 2000px; 
+  max-width: 2000px;
 }
 
 /* Boutons de navigation */
 .calendar-navigation button {
-  background-color: #ffffff; /* Conserver le bleu */
+  background-color: #ffffff;
+  /* Conserver le bleu */
   border: none;
   color: rgb(5, 5, 5);
   padding: 10px 20px;
@@ -160,7 +101,8 @@
 }
 
 .calendar-navigation button:hover {
-  background-color: #ffffff; /* Couleur légèrement plus foncée au survol */
+  background-color: #ffffff;
+  /* Couleur légèrement plus foncée au survol */
 }
 
 /* Titre du calendrier */
@@ -174,7 +116,7 @@
 
 /* Table du calendrier */
 .calendar-table {
-  width: 95%; 
+  width: 95%;
   border-collapse: collapse;
   table-layout: fixed;
 }
@@ -187,7 +129,8 @@
 }
 
 .calendar-table td {
-  height: 120px; /* Hauteur fixe des cellules */
+  height: 120px;
+  /* Hauteur fixe des cellules */
   vertical-align: top;
   padding: 10px;
   border: 1px solid #dee2e6;
@@ -227,29 +170,35 @@
   }
 
   .calendar-navigation {
-    flex-direction: column; /* Empiler les éléments sur les petits écrans */
+    flex-direction: column;
+    /* Empiler les éléments sur les petits écrans */
     align-items: center;
   }
 
   .calendar-navigation button {
     margin-bottom: 10px;
   }
-/*
+
+  /*
   .calendar-table td {
     height: auto; 
   }
    */
-  
+
 }
 
 /* Modal positionné dynamiquement */
 .inline-modal {
-  position: absolute; /* Position absolue pour un placement dynamique */
+  position: absolute;
+  /* Position absolue pour un placement dynamique */
   background: white;
   padding: 20px;
-  border-radius: 8px; /* Coins arrondis */
-  border: 1px solid #dee2e6; /* Bordure légère */
-  z-index: 1000; /* Pour s'assurer que le modal est au-dessus */
+  border-radius: 8px;
+  /* Coins arrondis */
+  border: 1px solid #dee2e6;
+  /* Bordure légère */
+  z-index: 1000;
+  /* Pour s'assurer que le modal est au-dessus */
   width: 300px;
   max-width: 90%;
 }
@@ -257,10 +206,12 @@
 /* Cellule cliquable */
 .clickable-cell {
   cursor: pointer;
-  background-color: #f9f9f9; /* Fond par défaut */
+  background-color: #f9f9f9;
+  /* Fond par défaut */
   transition: background-color 0.3s ease;
 }
 
 .clickable-cell:hover {
-  background-color: #e8f3ff; /* Couleur de survol */
+  background-color: #e8f3ff;
+  /* Couleur de survol */
 }

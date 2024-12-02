@@ -13,10 +13,6 @@ const posologySchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-  taken: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 module.exports = mongoose.model('Posology', posologySchema);

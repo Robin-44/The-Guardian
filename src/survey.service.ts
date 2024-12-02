@@ -36,11 +36,18 @@ export class SurveyService {
 
   getReminders(token: string): Observable<any[]> {
     return this.http.get<any[]>(`${this.baseUrl}/reminders/${token}`);
-  }  
+  }
   
   confirmReminder(reminderId: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/confirm-reminder`, { reminderId });
+    const payload = { reminderId, action: 'confirm' };
+    return this.http.post(`${this.baseUrl}/notification-response`, payload);
   }
+  
+  remindLater(reminderId: string): Observable<any> {
+    const payload = { reminderId, action: 'remind' };
+    return this.http.post(`${this.baseUrl}/notification-response`, payload);
+  }
+  
 
   addPosology(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/posology`, data);
