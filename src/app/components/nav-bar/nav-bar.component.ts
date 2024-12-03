@@ -1,5 +1,5 @@
   import { Component, Inject } from '@angular/core';
-  import { faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons';
+  import { faUser, faPowerOff, faHome, faCalendar } from '@fortawesome/free-solid-svg-icons';
   import { AuthService } from '@auth0/auth0-angular';
   import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
   import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -33,6 +33,8 @@
     isCollapsed = true;
     faUser = faUser;
     faPowerOff = faPowerOff;
+    faHome = faHome;
+    faCalendar = faCalendar;
 
     constructor(
       public auth: AuthService,

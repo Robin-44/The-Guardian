@@ -11,7 +11,7 @@
       <div class="collapse navbar-collapse" id="navbarNav" [ngbCollapse]="isCollapsed">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
-            <a routerLink="/" class="nav-link"><fa-icon [icon]="faUser" class="mr-3"></fa-icon>Home</a>
+            <a routerLink="/" class="nav-link"><fa-icon [icon]="faHome" class="mr-3"></fa-icon>Home</a>
           </li>
           <li class="nav-item" *ngIf="auth.isAuthenticated$ | async">
             <a routerLink="dashboard" class="nav-link"><fa-icon [icon]="faUser" class="mr-3"></fa-icon>Dashboard</a>
@@ -20,7 +20,7 @@
             <a routerLink="profile" class="nav-link"><fa-icon [icon]="faUser" class="mr-3"></fa-icon>Profil</a>
           </li>
           <li class="nav-item" *ngIf="auth.isAuthenticated$ | async">
-            <a routerLink="calendar" class="nav-link"><fa-icon [icon]="faUser" class="mr-3"></fa-icon>Calendrier</a>
+            <a routerLink="calendar" class="nav-link"><fa-icon [icon]="faCalendar" class="mr-3"></fa-icon>Calendrier</a>
           </li>
           <li class="nav-item" *ngIf="auth.isAuthenticated$ | async">
             <a routerLink="external-api" class="nav-link">Debug</a>
