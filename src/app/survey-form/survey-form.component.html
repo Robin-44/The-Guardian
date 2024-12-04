@@ -50,6 +50,7 @@
       <label for="userBloodType" class="form-label mt-3"><h3>Groupe sanguin</h3></label>
       <select id="userBloodType" class="form-select" [(ngModel)]="formData.userBloodType" required>
         <option value="">-- Choisissez --</option>
+        <option value="comprimé">Inconnu</option>
         <option value="comprimé">A+</option>
         <option value="sirop">A-</option>
         <option value="comprimé">B+</option>
@@ -70,7 +71,7 @@
     <div *ngIf="step === 3" class="form-step">
       <h5 class="font-weight-bold">Étape 3 : Compléments</h5>
       <label for="userComments" class="form-label mt-3"><h3>Ajoutez des commentaires</h3></label>
-      <input type="text" id="userComments" class="form-control" [(ngModel)]="formData.userComments" required />
+      <input type="text" id="userComments" class="form-control" [(ngModel)]="formData.userComments" />
 
       <div class="d-flex justify-content-between mt-4">
         <button class="btn btn-secondary" (click)="prevStep()">Précédent</button>

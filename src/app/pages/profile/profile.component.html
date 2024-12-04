@@ -7,53 +7,130 @@
         <tr>
             <th class="d-flex justify-content-start align-items-center" scope="col">Nom du champ</th>
             <th scope="col">Valeur</th>
-            <th scope="col">Modifier</th>
         </tr>
     </thead>
     <tbody>
         <tr>
           <td class="d-flex justify-content-start align-items-center">Prénom</td>
           <td>userName</td>
-          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
         </tr>
         <tr>
           <td class="d-flex justify-content-start align-items-center">Âge</td>
           <td>userAge</td>
-          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
         </tr>
         <tr>
           <td class="d-flex justify-content-start align-items-center">Genre</td>
           <td>userGender</td>
-          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
         </tr>
         <tr>
           <td class="d-flex justify-content-start align-items-center">Poids</td>
           <td>userWeight</td>
-          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
         </tr>
         <tr>
           <td class="d-flex justify-content-start align-items-center">Taille</td>
           <td>userSize</td>
-          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
         </tr>
         <tr>
           <td class="d-flex justify-content-start align-items-center">Groupe Sanguin</td>
           <td>userBloodType</td>
-          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
         </tr>
         <tr>
           <td class="d-flex justify-content-start align-items-center">Commentaires</td>
           <td>userComments</td>
-          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
         </tr>
         <tr></tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td><button type="button" class="btn btn-outline-warning">Supprimer mes informations</button></td>
+          <td><button type="button" class="btn btn-outline-danger" (click)="openDeleteModal()">Supprimer mes informations</button></td>
+          <td><button type="button" class="btn btn-outline-info" (click)="openEditModal()">Modifier mes données</button></td>
         </tr>
     </tbody>
   </table>
+    
+
+    <!-- Modal pour modifier les informations -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="editModalLabel">Modifier mes Informations</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="saveChanges()">
+              <div class="table-responsive">
+                <table class="table">
+                  <tbody>
+                    <tr>
+                      <td><label for="userName" class="col-form-label">Prénom</label></td>
+                      <td><input type="text" class="form-control" id="userName" name="userName" placeholder="userName" required></td>
+                    </tr>
+            
+                    <tr>
+                      <td><label for="userAge" class="col-form-label">Âge</label></td>
+                      <td><input type="number" class="form-control" id="userAge" name="userAge" placeholder="userAge" required></td>
+                    </tr>
+            
+                    <tr>
+                      <td><label for="userGender" class="col-form-label">Genre</label></td>
+                      <td><input type="text" class="form-control" id="userGender" name="userGender" placeholder="userGender" required></td>
+                    </tr>
+            
+                    <tr>
+                      <td><label for="userWeight" class="col-form-label">Poids</label></td>
+                      <td><input type="number" class="form-control" id="userWeight" name="userWeight" placeholder="userWeight" required></td>
+                    </tr>
+            
+                    <tr>
+                      <td><label for="userSize" class="col-form-label">Taille</label></td>
+                      <td><input type="number" class="form-control" id="userSize" name="userSize" placeholder="userSize" required></td>
+                    </tr>
+            
+                    <tr>
+                      <td><label for="userBloodType" class="col-form-label">Groupe Sanguin</label></td>
+                      <td><input type="text" class="form-control" id="userBloodType" name="userBloodType" placeholder="userBloodType" required></td>
+                    </tr>
+            
+                    <tr>
+                      <td><label for="userComments" class="col-form-label">Commentaires</label></td>
+                      <td><textarea class="form-control" id="userComments" name="userComments" placeholder="userComments"></textarea></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            
+              <button type="submit" class="btn btn-primary">Sauvegarder les modifications</button>
+              <!-- <button type="button" class="btn btn-danger" (click)="openDeleteModal()">Supprimer mes données</button> -->
+            </form>
+            
+            
+          </div>
+        </div>
+      </div>
+    </div>
+
+      <!-- Modal pour confirmation de suppression -->
+  <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="deleteModalLabel">Confirmer la suppression</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Êtes-vous sûr de vouloir supprimer toutes vos informations ? Cette action est irréversible.
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-danger" (click)="deleteData()">Supprimer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <h3>Les informations récupérées lors de votre connection</h3>
   <table id="tableau" class="table table-bordered table-striped">
     <thead>
