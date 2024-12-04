@@ -1,7 +1,7 @@
 <footer class="bg-light p-3 text-center">
   <p>
     Ce projet est fourni par
-    <a href="#">THE GUARDIAN</a>. Consultez nos 
-    <a [routerLink]="'/mentions-legales'" class="text-decoration-none">Mentions légales</a>.
+    <span class="text-decoration-none">THE GUARDIAN</span>. Consultez nos
+    <span (click)="goToMentions()" class="text-decoration-none cursor-pointer">Mentions légales</span>.
   </p>
 </footer>
