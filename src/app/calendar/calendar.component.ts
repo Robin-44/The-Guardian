@@ -52,24 +52,26 @@ export class CalendarComponent implements OnInit {
   /**
    * Open modal to add posology.
    */
-  openAddPosologyModal(date: Date | null, event: MouseEvent): void {
+   openAddPosologyModal(date: Date | null, event: MouseEvent): void {
     if (!date) {
       console.error('Date invalide ou absente.');
       return;
     }
-
-    // Set the modal position near the clicked date cell
+  
+    // Convertir la date UTC sélectionnée en heure locale française
+    const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  
+    this.posology.scheduledTime = localDate.toISOString().slice(0, 16); // Format yyyy-MM-ddTHH:mm
+    this.showModal = true;
+  
     const target = event.target as HTMLElement;
     const rect = target.getBoundingClientRect();
     this.modalPosition = {
       top: `${rect.top + window.scrollY}px`,
       left: `${rect.left + window.scrollX + rect.width}px`,
     };
-
-    // Pre-fill the selected date (in local time) for user convenience
-    this.posology.scheduledTime = date.toISOString().slice(0, 16); // Format yyyy-MM-ddTHH:mm
-    this.showModal = true;
   }
+  
 
   /**
    * Close the posology modal.
@@ -102,50 +104,49 @@ export class CalendarComponent implements OnInit {
   /**
    * Build calendar structure with reminders.
    */
-  buildCalendar(): void {
+   buildCalendar(): void {
     const startOfMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1);
     const endOfMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
-
+  
     const calendar = [];
     let week = [];
     let date = new Date(startOfMonth);
-
-    // Fill days before the start of the month
+  
     while (date.getDay() !== 0) {
       week.push({ date: null, reminders: [] });
       date.setDate(date.getDate() - 1);
     }
-
+  
     date = startOfMonth;
-
-    // Fill the days of the month
+  
     while (date <= endOfMonth) {
       const dayReminders = this.reminders.filter((reminder) =>
-        new Date(reminder.scheduledTime).toDateString() === date.toDateString()
+        new Date(reminder.posology.scheduledTime).toDateString() === date.toDateString()
       );
-
-      week.push({ date: new Date(date), reminders: dayReminders });
-
+  
+      const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  
+      week.push({ date: localDate, reminders: dayReminders });
+  
       if (week.length === 7) {
         calendar.push(week);
         week = [];
       }
-
+  
       date.setDate(date.getDate() + 1);
     }
-
-    // Fill days after the end of the month
+  
     while (week.length < 7) {
       week.push({ date: null, reminders: [] });
     }
-
+  
     if (week.length) {
       calendar.push(week);
     }
-
+  
     this.calendar = calendar;
   }
-
+  
   /**
    * Navigate to the previous month.
    */
@@ -189,18 +190,18 @@ export class CalendarComponent implements OnInit {
   /**
    * Save posology to the backend.
    */
-  savePosology(): void {
+   savePosology(): void {
     this.auth.user$.subscribe((user) => {
       if (user) {
-        const localDate = new Date(this.posology.scheduledTime);
-        const utcDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000);
-
+        const localDate = new Date(this.posology.scheduledTime); // Saisie locale
+        const utcDate = new Date(localDate.getTime() - localDate.getTimezoneOffset() * 60000); // Convertir en UTC
+  
         const payload = {
           userId: user.sub,
           medicationName: this.posology.medicationName,
-          scheduledTime: utcDate.toISOString(), // Save in UTC
+          scheduledTime: utcDate.toISOString(), // Envoi au format UTC
         };
-
+  
         this.surveyService.addPosology(payload).subscribe({
           next: () => {
             alert('Posologie enregistrée avec succès.');
@@ -212,7 +213,7 @@ export class CalendarComponent implements OnInit {
       }
     });
   }
-
+  
   /**
    * Reprogram a reminder.
    */

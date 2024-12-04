@@ -1,0 +1,13 @@
+.text-decoration-none {
+    text-decoration: underline; /* Simuler l'apparence d'un lien */
+  }
+  
+  .cursor-pointer {
+    cursor: pointer; /* Modifier le curseur pour indiquer que l'élément est cliquable */
+    color: #007bff; /* Couleur bleue pour ressembler à un lien */
+  }
+  
+  .cursor-pointer:hover {
+    text-decoration: underline; /* Ajouter un effet au survol */
+  }
+  

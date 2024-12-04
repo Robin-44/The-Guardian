@@ -5,6 +5,8 @@ import { FooterComponent } from './components/footer/footer.component';
 import { SwPush } from '@angular/service-worker';
 import { SurveyService } from '../survey.service';
 import { AuthService } from '@auth0/auth0-angular';
+import { routes } from './app-routing.module';
+import { RouterModule } from '@angular/router';
 
 
 
@@ -13,13 +15,13 @@ import { AuthService } from '@auth0/auth0-angular';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
   standalone: true,
-  imports: [RouterOutlet, NavBarComponent, FooterComponent ],
+  imports: [RouterOutlet, NavBarComponent, FooterComponent, RouterModule],
 })
 export class AppComponent implements OnInit {
   readonly VAPID_PUBLIC_KEY = 'BFkqMe1Z27lVdZcX8yRf-1qPsS5YdCTBZblt6hn7-s4AOGFYNosXKFU1Z35jO_RhjNEVIm4NrAnrByq-tlD3Vsc';
 
-  constructor(private swPush: SwPush, private surveyService: SurveyService,private auth: AuthService
-    ) {}
+  constructor(private swPush: SwPush, private surveyService: SurveyService, private auth: AuthService
+  ) { }
 
   ngOnInit(): void {
     console.log('Service Worker actif:', navigator.serviceWorker.controller !== null);

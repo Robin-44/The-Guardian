@@ -5,11 +5,7 @@ const reminderSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, 
     ref: 'Posology',
     required: true,
-  },
-  user: {
-    type: String,
-    required: true,
-  },
+  },  
   taken: {
     type: Boolean,
     default: false,

@@ -48,10 +48,12 @@ export class SurveyService {
     return this.http.post(`${this.baseUrl}/notification-response`, payload);
   }
   
-
-  addPosology(data: any): Observable<any> {
-    return this.http.post(`${this.baseUrl}/posology`, data);
-  }
+    addPosology(data: any): Observable<any> {
+      const utcDate = new Date(data.scheduledTime).toISOString(); // Convertir en UTC
+      const payload = { ...data, scheduledTime: utcDate };
+      return this.http.post(`${this.baseUrl}/posology`, payload);
+    }
+  
 
   handleNotificationResponse(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/notification-response`, data);
