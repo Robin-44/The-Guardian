@@ -16,13 +16,12 @@
       <div class="step-circle" [class.active]="step === 1" (click)="displayStep(1)">1</div>
       <div class="step-circle" [class.active]="step === 2" (click)="displayStep(2)">2</div>
       <div class="step-circle" [class.active]="step === 3" (click)="displayStep(3)">3</div>
-      <div class="step-circle" [class.active]="step === 4" (click)="displayStep(4)">4</div>
     </div>
 
     <!-- Étape 1 -->
     <div *ngIf="step === 1" class="form-step">
       <h5 class="font-weight-bold">Étape 1 : Informations Générales</h5>
-      <label for="userName" class="form-label mt-3"><h3>Nom complet</h3></label>
+      <label for="userName" class="form-label mt-3"><h3>Prénom</h3></label>
       <input type="text" id="userName" class="form-control" [(ngModel)]="formData.userName" required />
 
       <label for="userAge" class="form-label mt-3"><h3>Âge</h3></label>
@@ -33,6 +32,7 @@
         <option value="">-- Choisissez --</option>
         <option value="homme">Homme</option>
         <option value="femme">Femme</option>
+        <option value="femme">Autre</option>
       </select>
 
       <button class="btn btn-primary mt-3 float-end" (click)="nextStep()">Suivant</button>
@@ -40,19 +40,24 @@
 
     <!-- Étape 2 -->
     <div *ngIf="step === 2" class="form-step">
-      <h5 class="font-weight-bold">Étape 2 : Informations sur le Médicament</h5>
-      <label for="medicationName" class="form-label mt-3"><h3>Nom du médicament</h3></label>
-      <input type="text" id="medicationName" class="form-control" [(ngModel)]="formData.medicationName" required />
+      <h5 class="font-weight-bold">Étape 2 : Questions médicales</h5>
+      <label for="userWeight" class="form-label mt-3"><h3>Poids</h3></label>
+      <input type="number" id="userWeight" class="form-control" [(ngModel)]="formData.userWeight" required />
 
-      <label for="medicationDosage" class="form-label mt-3"><h3>Dosage</h3></label>
-      <input type="text" id="medicationDosage" class="form-control" [(ngModel)]="formData.medicationDosage" required />
+      <label for="userSize" class="form-label mt-3"><h3>Taille</h3></label>
+      <input type="number" id="userSize" class="form-control" [(ngModel)]="formData.userSize" required />
 
-      <label for="medicationForm" class="form-label mt-3"><h3>Forme du médicament</h3></label>
-      <select id="medicationForm" class="form-select" [(ngModel)]="formData.medicationForm" required>
+      <label for="userBloodType" class="form-label mt-3"><h3>Groupe sanguin</h3></label>
+      <select id="userBloodType" class="form-select" [(ngModel)]="formData.userBloodType" required>
         <option value="">-- Choisissez --</option>
-        <option value="comprimé">Comprimé</option>
-        <option value="sirop">Sirop</option>
-        <option value="injection">Injection</option>
+        <option value="comprimé">A+</option>
+        <option value="sirop">A-</option>
+        <option value="comprimé">B+</option>
+        <option value="sirop">B-</option>
+        <option value="comprimé">AB+</option>
+        <option value="sirop">AB-</option>
+        <option value="comprimé">0+</option>
+        <option value="sirop">0-</option>
       </select>
 
       <div class="d-flex justify-content-between mt-4">
@@ -63,35 +68,9 @@
 
     <!-- Étape 3 -->
     <div *ngIf="step === 3" class="form-step">
-      <h5 class="font-weight-bold">Étape 3 : Programme de Prise</h5>
-      <label for="frequency" class="form-label mt-3"><h3>Fréquence de prise</h3></label>
-      <select id="frequency" class="form-select" [(ngModel)]="formData.frequency" required>
-        <option value="">-- Choisissez --</option>
-        <option value="quotidienne">Quotidienne</option>
-        <option value="hebdomadaire">Hebdomadaire</option>
-        <option value="mensuelle">Mensuelle</option>
-      </select>
-
-      <label for="medicationDate" class="form-label mt-3"><h3>Date et heure de prise de médicament</h3></label>
-      <input type="datetime-local" id="medicationDate" class="form-control" [(ngModel)]="formData.medicationDate" />
-    
-      <div class="d-flex justify-content-between mt-4">
-        <button class="btn btn-secondary" (click)="prevStep()">Précédent</button>
-        <button class="btn btn-primary" (click)="nextStep()">Suivant</button>
-      </div>
-    </div>
-
-    <!-- Étape 4 -->
-    <div *ngIf="step === 4" class="form-step">
-      <h5 class="font-weight-bold">Étape 4 : Notifications</h5>
-
-      <label for="reminderTime" class="form-label mt-3"><h3>Temps avant le rappel</h3></label>
-      <select id="reminderTime" class="form-select" [(ngModel)]="formData.reminderTime">
-        <option value="">-- Choisissez --</option>
-        <option value="5">5 minutes avant</option>
-        <option value="15">15 minutes avant</option>
-        <option value="30">30 minutes avant</option>
-      </select>
+      <h5 class="font-weight-bold">Étape 3 : Compléments</h5>
+      <label for="userComments" class="form-label mt-3"><h3>Ajoutez des commentaires</h3></label>
+      <input type="text" id="userComments" class="form-control" [(ngModel)]="formData.userComments" required />
 
       <div class="d-flex justify-content-between mt-4">
         <button class="btn btn-secondary" (click)="prevStep()">Précédent</button>

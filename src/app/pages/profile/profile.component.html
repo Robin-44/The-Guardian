@@ -1,22 +1,105 @@
 <div class="container mt-5" *ngIf="auth.user$ | async as user">
-  <div
-    class="row align-items-center profile-header mb-5 text-center text-md-left"
-  >
-    <div class="col-md-2">
-      <img
-        [src]="user.picture"
-        class="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
-      />
-    </div>
-    <div class="col-md">
-      <h2>{{ user.name }}</h2>
-      <p class="lead text-muted">{{ user.email }}</p>
-    </div>
-  </div>
-
-  <div class="row" *ngIf="profileJson">
-    <pre
-      class="rounded"
-    ><code class="json" [highlight]="profileJson"></code></pre>
+  <div class="row align-items-center profile-header mb-5 text-center text-md-left">
+  <h3>Les informations récupérées lors de la complétion du formulaire</h3>
+  <script>console.log(personalDatas)</script>
+  <table id="tableau2" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="d-flex justify-content-start align-items-center" scope="col">Nom du champ</th>
+            <th scope="col">Valeur</th>
+            <th scope="col">Modifier</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Prénom</td>
+          <td>userName</td>
+          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Âge</td>
+          <td>userAge</td>
+          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Genre</td>
+          <td>userGender</td>
+          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Poids</td>
+          <td>userWeight</td>
+          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Taille</td>
+          <td>userSize</td>
+          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Groupe Sanguin</td>
+          <td>userBloodType</td>
+          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Commentaires</td>
+          <td>userComments</td>
+          <td><button type="button" class="btn btn-outline-primary">Edit</button></td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td><button type="button" class="btn btn-outline-warning">Supprimer mes informations</button></td>
+        </tr>
+    </tbody>
+  </table>
+  <h3>Les informations récupérées lors de votre connection</h3>
+  <table id="tableau" class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th class="d-flex justify-content-start align-items-center" scope="col">Nom du champ</th>
+            <th scope="col">Valeur</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">given_name</td>
+          <td>{{ user.given_name }}</td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">family_name</td>
+          <td>{{ user.family_name }}</td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">nickname</td>
+          <td>{{ user.nickname }}</td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">name</td>
+          <td>{{ user.name }}</td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">picture</td>
+          <td><img [src]="user.picture" class="rounded-circle img-fluid profile-picture mb-3 mb-md-0"/></td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">updated_at</td>
+          <td>{{ user.updated_at }}</td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">email</td>
+          <td>{{ user.email }}</td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">email_verified</td>
+          <td>{{ user.email_verified }}</td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">sub</td>
+          <td>{{ user.sub }}</td>
+        </tr>
+    </tbody>
+  </table>
   </div>
 </div>

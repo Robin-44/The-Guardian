@@ -60,12 +60,10 @@ app.post('/api/submit-survey', async (req, res) => {
     userName,
     userAge,
     userGender,
-    medicationName,
-    medicationDosage,
-    medicationForm,
-    frequency,
-    medicationDate,
-    reminderTime
+    userWeight,
+    userSize,
+    userBloodType,
+    userComments,
   } = req.body;
 
   try {
@@ -77,12 +75,10 @@ app.post('/api/submit-survey', async (req, res) => {
       userName,
       userAge,
       userGender,
-      medicationName,
-      medicationDosage,
-      medicationForm,
-      frequency,
-      medicationDate,
-      reminderTime,
+      userWeight,
+      userSize,
+      userBloodType,
+      userComments,
     });
 
     await surveyResponse.save();
