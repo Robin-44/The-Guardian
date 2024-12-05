@@ -65,16 +65,6 @@ export class SettingsComponent implements OnInit {
               next: () => {
                 this.isSubscribed = true;
                 this.notificationMessage = 'Vous êtes maintenant abonné aux notifications.';
-  
-                // Envoyer une notification de test
-                this.surveyService.testNotification(user.sub).subscribe({
-                  next: () => {
-                    console.log('Notification de test envoyée.');
-                  },
-                  error: (err) => {
-                    console.error('Erreur lors de l\'envoi de la notification de test :', err);
-                  },
-                });
               },
               error: (err) => {
                 console.error('Erreur lors de l\'enregistrement de la souscription :', err);

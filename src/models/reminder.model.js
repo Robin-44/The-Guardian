@@ -8,7 +8,15 @@ const reminderSchema = new mongoose.Schema({
   },  
   taken: {
     type: Boolean,
-    default: false,
+    default: false, 
+  },
+  reminded: {
+    type: Boolean,
+    default: false, // Notification initiale envoyée
+  },
+  resendNotified: {
+    type: Boolean,
+    default: false, // Notification de renvoi envoyée
   },
   confirmationTime: {
     type: Date,

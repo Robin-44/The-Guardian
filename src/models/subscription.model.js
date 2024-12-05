@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
 const subscriptionSchema = new mongoose.Schema({
-  user: { type: String, 
-        ref: 'User',
-  required: true},
+  user: {
+    type: String,
+    required: true,
+  },
   subscription: { type: Object, required: true },
 });
 

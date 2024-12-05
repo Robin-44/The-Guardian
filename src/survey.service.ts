@@ -30,24 +30,6 @@ export class SurveyService {
     return this.http.get<{ isSubscribed: boolean }>(`${this.baseUrl}/subscription-status/${token}`);
   }
 
-  testNotification(token: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/test-notification`, { token });
-  }
-
-  getReminders(token: string): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/reminders/${token}`);
-  }
-  
-  confirmReminder(reminderId: string): Observable<any> {
-    const payload = { reminderId, action: 'confirm' };
-    return this.http.post(`${this.baseUrl}/notification-response`, payload);
-  }
-  
-  remindLater(reminderId: string): Observable<any> {
-    const payload = { reminderId, action: 'remind' };
-    return this.http.post(`${this.baseUrl}/notification-response`, payload);
-  }
-  
     addPosology(data: any): Observable<any> {
       const utcDate = new Date(data.scheduledTime).toISOString(); // Convertir en UTC
       const payload = { ...data, scheduledTime: utcDate };
@@ -58,5 +40,22 @@ export class SurveyService {
   handleNotificationResponse(data: any): Observable<any> {
     return this.http.post(`${this.baseUrl}/notification-response`, data);
   }
+
+  remindLater(reminderId: string): Observable<any> {
+    const payload = { reminderId, action: 'remind' };
+    return this.http.post(`${this.baseUrl}/notification-response`, payload);
+  }
+  
+  getReminders(reminderId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/reminder/${reminderId}`);
+  } 
+  
+  updateReminder(reminderId: string, action: 'confirm' | 'ignore'): Observable<any> {
+    return this.http.post(`${this.baseUrl}/reminder/${reminderId}/action`, { action });
+  }
+  
+  getUserPosologies(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/user-posologies/${userId}`);
+  }  
   
 }

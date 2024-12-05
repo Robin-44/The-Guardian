@@ -122,7 +122,7 @@ body {
 }
 
 .calendar-table th {
-  background-color: #5d87ff;
+  background-color: #0d6efd;
   color: #fff;
   padding: 10px;
   font-size: 16px;
@@ -215,3 +215,54 @@ body {
   background-color: #e8f3ff;
   /* Couleur de survol */
 }
+
+
+/*modal du reminder*/
+.confirmation-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: white;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 400px;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.confirmation-modal .modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.confirmation-modal .modal-body {
+  margin-top: 15px;
+}
+
+.confirmation-modal .modal-actions {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.confirmation-modal button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.confirmation-modal .btn-success {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.confirmation-modal .btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+

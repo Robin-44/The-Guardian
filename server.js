@@ -7,8 +7,6 @@ require('dotenv').config();
 const app = express();
 const port = 3000;
 const webPush = require('web-push');
-const Subscription = require('./src/models/subscription.model');
-const Reminder = require('./src/models/reminder.model.js');
 const cron = require('node-cron');
 const { auth } = require('express-oauth2-jwt-bearer');
 const authConfig = require('./auth_config.json');
@@ -28,6 +26,8 @@ const User = require('./src/models/user.model.js');
 const SurveyStatus = require('./src/models/survey_status.model.js');
 const SurveyResponse = require('./src/models/survey_response.model.js');
 const Posology = require('./src/models/posology.model.js');
+const Subscription = require('./src/models/subscription.model');
+const Reminder = require('./src/models/reminder.model.js');
 
 // API pour l'authentification de l'utilisateur
 app.post('/api/auth-user',async (req, res) => {
@@ -108,102 +108,107 @@ webPush.setVapidDetails(
 app.post('/api/subscribe', async (req, res) => {
   const { token, subscription } = req.body;
 
-  try {
-    // Recherchez l'utilisateur à partir du token
-    const user = await User.findOne({ token });
-    if (!user) {
-      return res.status(404).json({ error: 'Utilisateur introuvable.' });
-    }
+  if (!token || !subscription) {
+    return res.status(400).json({ error: 'Token et subscription sont requis.' });
+  }
 
-    // Utilisez le token comme référence pour le champ "user" dans la souscription
+  try {
+    // Vérifiez si une souscription existe déjà pour cet utilisateur
     let userSubscription = await Subscription.findOne({ user: token });
     if (!userSubscription) {
+      // Créez une nouvelle souscription si elle n'existe pas
       userSubscription = new Subscription({ user: token, subscription });
       await userSubscription.save();
     } else {
+      // Mettez à jour la souscription existante
       userSubscription.subscription = subscription;
       await userSubscription.save();
     }
 
-    res.status(200).json({ message: 'Abonnement enregistré avec succès.' });
+    console.log('Souscription enregistrée avec succès :', userSubscription);
+    res.status(200).json({ message: 'Souscription enregistrée avec succès.' });
   } catch (err) {
-    console.error('Erreur lors de l\'enregistrement de l\'abonnement :', err);
-    res.status(500).json({ error: 'Erreur lors de l\'enregistrement de l\'abonnement.' });
-  }
-});
-
-
-// API pour vérifier le statut de souscription d'un utilisateur
-app.get('/api/subscription-status/:token', async (req, res) => {
-  const { token } = req.params; // Récupération du paramètre "token"
-
-  try {
-    console.log('Requête pour le token:', token);
-
-    // Recherchez l'utilisateur en utilisant le token
-    const user = await User.findOne({ token });
-    if (!user) {
-      return res.status(404).json({ error: 'Utilisateur introuvable.' });
-    }
-
-    // Recherchez la souscription pour cet utilisateur
-    const subscription = await Subscription.findOne({ user: user._id });
-    if (!subscription) {
-      return res.status(200).json({ isSubscribed: false });
-    }
-
-    res.status(200).json({ isSubscribed: true });
-  } catch (err) {
-    console.error('Erreur lors de la vérification du statut de souscription :', err);
+    console.error('Erreur lors de l\'enregistrement de la souscription :', err);
     res.status(500).json({ error: 'Erreur interne du serveur.' });
   }
 });
 
-// API pour se desabonner des notifications 
-app.delete('/api/unsubscribe/:token', async (req, res) => {
-  const { token } = req.params; // Récupère le paramètre "token"
+
+
+// API pour vérifier le statut de souscription d'un utilisateur
+app.get('/api/subscription-status/:token', async (req, res) => {
+  const { token } = req.params;
+
   try {
-    console.log('Requête pour désabonnement, token reçu :', token);
-
-    // Trouver l'utilisateur par le token
-    const user = await User.findOne({ token });
-    if (!user) {
-      console.error('Utilisateur introuvable pour le token:', token);
-      return res.status(404).json({ error: 'Utilisateur introuvable.' });
-    }
-
-    // Supprimer l'abonnement lié à cet utilisateur
-    await Subscription.deleteOne({ user: user._id });
-    console.log('Abonnement supprimé pour l\'utilisateur:', user._id);
-
-    res.status(200).json({ message: 'Souscription supprimée avec succès.' });
+    // Vérifiez si une souscription existe pour cet utilisateur
+    const subscription = await Subscription.findOne({ user: token });
+    res.status(200).json({ isSubscribed: !!subscription });
   } catch (err) {
-    console.error('Erreur lors de la suppression de l\'abonnement :', err);
-    res.status(500).json({ error: 'Erreur lors de la suppression de l\'abonnement.' });
+    console.error('Erreur lors de la vérification de souscription :', err);
+    res.status(500).json({ error: 'Erreur interne du serveur.' });
   }
 });
 
 
-// API pour vérifier les rappels
-app.get('/api/reminders/:token', async (req, res) => {
+// API pour se desabonner des notifications 
+app.delete('/api/unsubscribe/:token', async (req, res) => {
   const { token } = req.params;
 
   try {
-    const user = await User.findOne({ token });
-    if (!user) {
-      return res.status(404).json({ error: 'Utilisateur introuvable.' });
+    // Supprimez la souscription associée à ce token
+    const result = await Subscription.deleteOne({ user: token });
+    if (result.deletedCount > 0) {
+      console.log(`Souscription supprimée pour l'utilisateur : ${token}`);
+      res.status(200).json({ message: 'Souscription supprimée avec succès.' });
+    } else {
+      res.status(404).json({ error: 'Aucune souscription trouvée pour cet utilisateur.' });
     }
-
-    // Récupérez les rappels en peuplant le champ posology
-    const reminders = await Reminder.find({ user: user._id }).populate('posology');
-
-    if (!reminders.length) {
-      return res.status(200).json([]);
-    }
-
-    res.status(200).json(reminders);
   } catch (err) {
-    console.error('Erreur lors de la récupération des rappels :', err);
+    console.error('Erreur lors de la suppression de la souscription :', err);
+    res.status(500).json({ error: 'Erreur interne du serveur.' });
+  }
+});
+
+app.get('/api/reminder/:id', async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    // Récupérer le rappel et peupler les détails de la posologie
+    const reminder = await Reminder.findById(id).populate('posology');
+    if (!reminder) {
+      return res.status(404).json({ error: 'Rappel introuvable.' });
+    }
+
+    res.status(200).json(reminder);
+  } catch (err) {
+    console.error('Erreur lors de la récupération du rappel :', err);
+    res.status(500).json({ error: 'Erreur interne du serveur.' });
+  }
+});
+
+app.post('/api/reminder/:id/action', async (req, res) => {
+  const { id } = req.params;
+  const { action } = req.body;
+
+  try {
+    const reminder = await Reminder.findById(id);
+    if (!reminder) {
+      return res.status(404).json({ error: 'Rappel introuvable.' });
+    }
+
+    if (action === 'confirm') {
+      reminder.taken = true;
+      reminder.confirmationTime = new Date();
+    } else if (action === 'ignore') {
+      reminder.taken = false; // Peut-être déjà `false` par défaut
+    } else {
+      return res.status(400).json({ error: 'Action non valide.' });
+    }
+
+    await reminder.save();
+    res.status(200).json({ message: 'Action effectuée avec succès.', reminder });
+  } catch (err) {
+    console.error('Erreur lors de la mise à jour du rappel :', err);
     res.status(500).json({ error: 'Erreur interne du serveur.' });
   }
 });
@@ -256,6 +261,7 @@ cron.schedule('* * * * *', async () => {
   // Heure actuelle en Europe/Paris
   const nowParis = nowUTC.clone().tz('Europe/Paris');
   console.log(`Heure actuelle Europe/Paris : ${nowParis.format()}`);
+  
 
   try {
     // Récupérez les rappels non pris depuis MongoDB
@@ -269,12 +275,55 @@ cron.schedule('* * * * *', async () => {
       }
 
       // heure prevue du rappel 
-      const scheduledTimeUTC = moment(reminder.posology.scheduledTime).subtract(1, 'hours');
-      console.log(`Rappel prévu pour (UTC ajusté -1h) : ${scheduledTimeUTC.format()}`);
+      const scheduledTimeParis = moment(reminder.posology.scheduledTime).subtract(1, 'hours');
+      console.log(`Rappel prévu pour (UTC ajusté -1h) : ${scheduledTimeParis.format()}`);
 
 
-      // Si l'heure prévue est passée ou correspond à l'heure actuelle
-      if (scheduledTimeUTC.isSameOrBefore(nowUTC)) {
+      // Si l'heure prévue est passée de 3 minutes ou plus
+      if (scheduledTimeParis.isSameOrBefore(nowUTC) && !reminder.reminded) {
+
+          console.log(`Rappel initial pour le médicament : ${reminder.posology.medicationName}`);
+
+          // Recherchez la souscription associée à l'utilisateur
+          const subscription = await Subscription.findOne({ user: reminder.posology.user });
+          if (!subscription) {
+            console.log(`Aucune souscription trouvée pour l'utilisateur : ${reminder.posology.user}`);
+            continue;
+          }
+
+          // Préparer et envoyer la notification
+          const payload = JSON.stringify({
+            notification: {
+              title: 'Rappel de médicament',
+              body: `Il est temps de prendre votre médicament : ${reminder.posology.medicationName}`,
+              data: { 
+                reminderId: reminder._id.toString(),
+                 action: 'openModal' },
+            },
+          });
+
+          try {
+            await webPush.sendNotification(subscription.subscription, payload);
+            console.log(`Notification initiale envoyée pour : ${reminder.posology.medicationName}`);
+            console.log(`Reminder ID envoyé dans la notification : ${reminder._id}`);
+            // Marquer le rappel comme "notifié"
+            reminder.reminded = true;
+            await reminder.save();
+          } catch (err) {
+            console.error(`Erreur lors de l'envoi de la notification initiale : ${err.message}`);
+          }
+        }
+        else if (scheduledTimeParis.isAfter(nowParis)) {
+          // Cas : La date prévue n'est pas encore atteinte
+          console.log(`Rappel ignoré : prévu pour ${scheduledTimeParis.format()}, heure actuelle ${nowParis.format()}`);
+        }
+
+         // Cas 2 : Renvoi du rappel après 3 minutes si aucune action n'a été prise
+      const timeDifference = nowParis.diff(scheduledTimeParis, 'minutes');
+      if (timeDifference >= 3 && !reminder.taken && !reminder.resendNotified) {
+        console.log(`Renvoi du rappel pour le médicament : ${reminder.posology.medicationName}`);
+        console.log(`Reminder ID envoyé dans la notification : ${reminder._id}`);
+
         // Recherchez la souscription associée à l'utilisateur
         const subscription = await Subscription.findOne({ user: reminder.posology.user });
         if (!subscription) {
@@ -282,28 +331,27 @@ cron.schedule('* * * * *', async () => {
           continue;
         }
 
-        // Préparer la notification
+        // Préparer et envoyer la notification
         const payload = JSON.stringify({
           notification: {
             title: 'Rappel de médicament',
-            body: `Il est temps de prendre votre médicament : ${reminder.posology.medicationName}`,
+            body: `N'oubliez pas de prendre votre médicament : ${reminder.posology.medicationName}`,
+            data: { 
+              reminderId: reminder._id.toString(),
+               action: 'openModal' },
           },
         });
 
         try {
-          // Envoyer la notification
           await webPush.sendNotification(subscription.subscription, payload);
-          console.log(`Notification envoyée pour : ${reminder.posology.medicationName}`);
-
-          // Marquer le rappel comme pris
-          reminder.taken = true;
+          console.log(`Notification de renvoi envoyée pour : ${reminder.posology.medicationName}`);
+          // Marquer le rappel comme "renvoyé"
+          reminder.resendNotified = true;
           await reminder.save();
         } catch (err) {
-          console.error(`Erreur lors de l'envoi de la notification : ${err.message}`);
+          console.error(`Erreur lors du renvoi de la notification : ${err.message}`);
         }
-      } else {
-        console.log(`Rappel ignoré : prévu pour ${scheduledTimeUTC.format()}, heure actuelle ${nowParis.format()}`);
-      }
+        }
     }
   } catch (err) {
     console.error('Erreur lors de la récupération ou de l\'envoi des rappels :', err);
@@ -311,84 +359,34 @@ cron.schedule('* * * * *', async () => {
 });
 
 
+app.get('/api/user-posologies/:userId', async (req, res) => {
+  const { userId } = req.params;
 
-
-
-// Gestion des réponses aux notifications
-app.post('/api/notification-response', async (req, res) => {
   try {
-    const { reminderId, action } = req.body;
+    // Récupérer toutes les posologies pour cet utilisateur
+    const posologies = await Posology.find({ user: userId });
 
-    const reminder = await Reminder.findById(reminderId).populate('posology');
-    if (!reminder) return res.status(404).json({ error: 'Rappel introuvable.' });
-
-    if (action === 'confirm') {
-      reminder.taken = true;
-      reminder.confirmationTime = new Date().toISOString(); // Enregistrer en UTC
-      await reminder.save();
-      console.log(`Le médicament ${reminder.posology.medicationName} a été confirmé comme pris.`);
-    } else if (action === 'remind') {
-      const newReminderTime = new Date();
-      newReminderTime.setMinutes(newReminderTime.getMinutes() + 5);
-      reminder.posology.scheduledTime = newReminderTime.toISOString(); // Replanifier en UTC
-      await reminder.posology.save();
-      console.log(`Un rappel supplémentaire a été planifié pour ${reminder.posology.medicationName}.`);
+    if (!posologies.length) {
+      return res.status(404).json({ error: 'Aucune posologie trouvée pour cet utilisateur.' });
     }
 
-    res.status(200).json({ message: 'Action enregistrée avec succès.' });
+    // Récupérer tous les rappels associés à ces posologies
+    const posologyIds = posologies.map((posology) => posology._id);
+    const reminders = await Reminder.find({ posology: { $in: posologyIds } });
+
+    // Joindre les données des rappels aux posologies
+    const result = posologies.map((posology) => {
+      const reminder = reminders.find((rem) => rem.posology.toString() === posology._id.toString());
+      return {
+        ...posology.toObject(),
+        taken: reminder ? reminder.taken : null, // Si aucun rappel, mettre `null`
+      };
+    });
+
+    res.status(200).json(result);
   } catch (err) {
-    console.error('Erreur lors du traitement de la réponse de notification :', err);
+    console.error('Erreur lors de la récupération des posologies :', err);
     res.status(500).json({ error: 'Erreur interne du serveur.' });
-  }
-});
-
-
-app.post('/api/test-notification-by-date', async (req, res) => {
-  const { token } = req.body;
-
-  try {
-    const user = await User.findOne({ token });
-    if (!user) {
-      return res.status(404).json({ error: 'Utilisateur introuvable.' });
-    }
-
-    const subscription = await Subscription.findOne({ user: user._id });
-    if (!subscription || !subscription.subscription) {
-      return res.status(404).json({ error: 'Abonnement introuvable pour cet utilisateur.' });
-    }
-
-    // Simulez une date fournie par l'utilisateur en heure locale française
-    let reminderDateFrance = moment.tz('2024-12-03T13:45:00', 'Europe/Paris'); // Date fournie par l'utilisateur
-
-    console.log(`Date fournie en France : ${reminderDateFrance.format()}`);
-
-    // Convertissez cette date en UTC
-    const reminderDateUTC = reminderDateFrance.clone().tz('UTC');
-    const nowUTC = moment().tz('UTC'); // Heure actuelle en UTC
-
-    console.log(`Date du rappel convertie en UTC : ${reminderDateUTC.format()}`);
-    console.log(`Heure actuelle UTC : ${nowUTC.format()}`);
-
-    // Vérifiez si les dates correspondent dans une fenêtre de 1 minute
-    const timeDifference = Math.abs(reminderDateUTC.diff(nowUTC, 'seconds'));
-    if (timeDifference <= 60) {
-      const payload = JSON.stringify({
-        notification: {
-          title: 'Rappel de test',
-          body: 'Ceci est un test pour une date brute spécifique.',
-        },
-      });
-
-      await webPush.sendNotification(subscription.subscription, payload);
-      console.log(`Notification envoyée à l'utilisateur : ${user._id}`);
-      return res.status(200).json({ message: 'Notification envoyée avec succès.' });
-    } else {
-      console.log('Les dates ne correspondent pas. Aucune notification envoyée.');
-      return res.status(200).json({ message: 'Les dates ne correspondent pas. Aucune notification envoyée.' });
-    }
-  } catch (err) {
-    console.error('Erreur lors de l\'envoi de la notification :', err);
-    res.status(500).json({ error: 'Erreur lors de l\'envoi de la notification.' });
   }
 });
 
@@ -397,4 +395,9 @@ app.post('/api/test-notification-by-date', async (req, res) => {
 // Démarrer le serveur
 app.listen(port, () => {
   console.log(`Serveur démarré sur http://localhost:${port}`);
+});
+
+// Gestion des routes non trouvées
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route introuvable.' });
 });

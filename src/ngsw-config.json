@@ -19,7 +19,8 @@
       "resources": {
         "files": [
           "/assets/**",
-          "/manifest.webmanifest"
+          "/manifest.webmanifest",
+          "/custom-service-worker.js" 
         ]
       }
     }
