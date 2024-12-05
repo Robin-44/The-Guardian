@@ -1,0 +1,48 @@
+<!-- Main Content -->
+<div class="content">
+  <div class="container">
+    <!-- Bienvenue Panel -->
+    <div class="welcome-panel card p-4">
+      <h4 class="dashboard-header" style="color: #0d6efd;">Bonjour, <span>{{ userName || 'Utilisateur' }}</span> !</h4>
+      <p>Bienvenue sur votre dashboard. Gérez vos médicaments, prenez des rendez-vous, répondez à des questionnaires et
+        plus encore.</p>
+      <button class="btn btn-primary btn-lg px-5 py-3 me-sm-3 fs-6 fw-bolder" (click)="goToCalendar()">VOIR MON CALENDRIER</button>
+
+    </div>
+    <!-- Autres sections -->
+    <div class="row">
+      <div class="row row-cols-1 row-cols-md-3 g-4">
+        <div class="col">
+          <div class="card">
+            <img src="assets/images/equipe.jpg" class="card-img-top" alt="..." width="100%">
+            <div class="card-body">
+              <h5 class="card-title">Une équipe pour vous accompagner</h5>
+              <p class="card-text">Bénéficiez du soutien d'une équipe médicale dévouée, prête à répondre à vos besoins
+                et à vous accompagner au quotidien</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <img src="assets/images/enceinte.jpg" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Gérez votre santé avec facilité</h5>
+              <p class="card-text">Utilisez nos outils interactifs pour suivre vos consultations, gérer vos médicaments
+                et accéder à des conseils personnalisés. </p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <img src="assets/images/calendar.avif" class="card-img-top" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">Votre calendrier de santé</h5>
+              <p class="card-text">Accédez à vos e enregistrements, suivez vos prises de medicaments à venir, à un
+                calendrier clair et simple.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
