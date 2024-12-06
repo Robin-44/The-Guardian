@@ -10,32 +10,12 @@ COPY package.json .
 COPY package-lock.json .
 COPY auth_config.json .
 
-RUN npm install --legacy-peer-deps
+RUN npm install
 
 COPY . .
 
-RUN npm run build
+RUN npm run dev
 
-# -----------------
-
-FROM node:18-alpine
-
-RUN mkdir -p /app
-
-WORKDIR /app
-
-COPY package.json .
-COPY package-lock.json .
-COPY auth_config.json .
-
-RUN npm install --production --legacy-peer-deps
-
-COPY --from=build ./app/dist/login-demo ./dist
-COPY ./server.js .
-COPY ./api-server.js .
-COPY ./auth_config.json .
-
-ENV NODE_ENV=production
 ENV SERVER_PORT=4200
 ENV API_SERVER_PORT=3001
 
