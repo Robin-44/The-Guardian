@@ -15,7 +15,6 @@
         <td>{{ posology.scheduledTime | date: 'short' }}</td>
         <td>{{ posology.taken ? 'Oui' : 'Non' }}</td>
         <td>
-          <button (click)="editPosology(posology)" class="btn btn-warning btn-sm me-2">Éditer</button>
           <button (click)="deletePosology(posology._id)" class="btn btn-danger btn-sm">Supprimer</button>
         </td>
       </tr>
@@ -24,46 +23,5 @@
   <div class="mb-3">
     <button (click)="downloadPDF()" class="btn btn-primary me-2">Télécharger en PDF</button>
     <button (click)="downloadExcel()" class="btn btn-success">Télécharger en Excel</button>
-  </div>
-  
-  <!-- Formulaire d'édition -->
-  <div *ngIf="editingPosology" class="mt-4">
-    <h3>Éditer Posologie</h3>
-    <form (ngSubmit)="updatePosology()">
-      <div class="mb-3">
-        <label for="medicationName" class="form-label">Nom du Médicament</label>
-        <input
-          type="text"
-          id="medicationName"
-          [(ngModel)]="editingPosology.medicationName"
-          name="medicationName"
-          class="form-control"
-          required
-        />
-      </div>
-      <div class="mb-3">
-        <label for="scheduledTime" class="form-label">Heure Programmée</label>
-        <input
-          type="datetime-local"
-          id="scheduledTime"
-          [(ngModel)]="editingPosology.scheduledTime"
-          name="scheduledTime"
-          class="form-control"
-          required
-        />
-      </div>
-      <div class="mb-3 form-check">
-        <input
-          type="checkbox"
-          id="taken"
-          [(ngModel)]="editingPosology.taken"
-          name="taken"
-          class="form-check-input"
-        />
-        <label for="taken" class="form-check-label">Rappel Pris</label>
-      </div>
-      <button type="submit" class="btn btn-primary me-2">Sauvegarder</button>
-      <button type="button" class="btn btn-secondary" (click)="cancelEdit()">Annuler</button>
-    </form>
   </div>
 </div>

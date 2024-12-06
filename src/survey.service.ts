@@ -58,9 +58,6 @@ export class SurveyService {
     return this.http.get<any[]>(`${this.baseUrl}/user-posologies/${userId}`);
   }  
   deletePosology(posologyId: string): Observable<any> {
-    return this.http.delete(`/api/posologies/${posologyId}`);
-  }  
-  updatePosology(posology: any): Observable<any> {
-    return this.http.put(`/api/posologies/${posology._id}`, posology); // Envoyer les données de la posologie mises à jour
-  }    
+    return this.http.delete(`http://localhost:3000/api/posologies/${posologyId}`);
+  }       
 }
