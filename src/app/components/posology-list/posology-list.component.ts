@@ -7,6 +7,8 @@ import 'jspdf-autotable';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
 import { FormsModule } from '@angular/forms';  // Importation de FormsModule
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-posology-list',
@@ -18,7 +20,7 @@ import { FormsModule } from '@angular/forms';  // Importation de FormsModule
 })
 export class PosologyListComponent implements OnInit {
   posologies: any[] = [];
-
+  private baseUrl = 'http://localhost:3000/api';
   constructor(
     private surveyService: SurveyService,
     private auth: AuthService
@@ -46,6 +48,7 @@ export class PosologyListComponent implements OnInit {
       error: (err) => console.error('Erreur lors du chargement des posologies :', err),
     });
   }
+
   downloadPDF(): void {
     const doc = new jsPDF();
   
@@ -95,43 +98,16 @@ export class PosologyListComponent implements OnInit {
       this.surveyService.deletePosology(posologyId).subscribe({
         next: () => {
           console.log('Posologie supprimée avec succès.');
-          this.posologies = this.posologies.filter(posology => posology._id !== posologyId);
+          this.posologies = this.posologies.filter(
+            (posology) => posology._id !== posologyId
+          );
         },
         error: (err) => {
           console.error('Erreur lors de la suppression de la posologie :', err);
           alert('Une erreur est survenue lors de la suppression. Veuillez réessayer.');
-        }
+        },
       });
     }
-  }  
-  
-  editingPosology: any = null;
-  editPosology(posology: any): void {
-    this.editingPosology = { ...posology }; // Copie des données pour éviter une modification directe.
   }
-  cancelEdit(): void {
-    this.editingPosology = null; // Cache le formulaire.
-  }
-
-  updatePosology(): void {
-    this.surveyService.updatePosology(this.editingPosology).subscribe({
-      next: (updatedPosology) => {
-        // Trouver l'index de la posologie mise à jour dans la liste
-        const index = this.posologies.findIndex(p => p._id === updatedPosology._id);
-        
-        if (index !== -1) {
-          // Mettre à jour l'élément de la liste avec la nouvelle posologie
-          this.posologies[index] = updatedPosology;
-        }
-  
-        // Réinitialiser l'édition et fermer le formulaire
-        this.editingPosology = null;
-      },
-      error: (err) => {
-        console.error('Erreur lors de la mise à jour de la posologie :', err);
-        alert('Une erreur s\'est produite lors de la mise à jour de la posologie.');
-      }
-    });
-  }  
   
 }

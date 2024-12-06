@@ -392,7 +392,8 @@ app.get('/api/user-posologies/:userId', async (req, res) => {
 
 app.delete('/api/posologies/:id', async (req, res) => {
   const { id } = req.params;
-  console.log('ID de la posologie à supprimer :', id); // Ajout du log
+  console.log('ID de la posologie à supprimer :', id);
+
   try {
     const deletedPosology = await Posology.findByIdAndDelete(id);
     if (!deletedPosology) {
