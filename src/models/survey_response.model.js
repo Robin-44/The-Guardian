@@ -5,13 +5,10 @@ const SurveyResponseSchema = new mongoose.Schema({
   userName: String,
   userAge: Number,
   userGender: String,
-  medicationName: String,
-  medicationDosage: String,
-  medicationForm: String,
-  frequency: String,
-  medicationDate: Date,
-  reminderTime: String,
+  userWeight: Number,
+  userSize: Number,
+  userBloodType: String,
+  userComments: String,
 });
 
 module.exports = mongoose.model('SurveyResponse', SurveyResponseSchema);
-  

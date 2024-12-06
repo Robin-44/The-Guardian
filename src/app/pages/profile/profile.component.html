@@ -7,11 +7,10 @@
         <th>Nom</th>
         <th>Âge</th>
         <th>Sexe</th>
-        <th>Médicament</th>
-        <th>Dosage</th>
-        <th>Fréquence</th>
-        <th>Date de début</th>
-        <th>Heure de rappel</th>
+        <th>Poids</th>
+        <th>Taille</th>
+        <th>Groupe sanguin</th>
+        <th>Commentaires</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -32,29 +31,24 @@
           <input [(ngModel)]="response.userGender" class="form-control" />
         </td>
 
-        <td *ngIf="!response.isEditing">{{ response.medicationName }}</td>
+        <td *ngIf="!response.isEditing">{{ response.userWeight }}</td>
         <td *ngIf="response.isEditing">
-          <input [(ngModel)]="response.medicationName" class="form-control" />
+          <input [(ngModel)]="response.userWeight" class="form-control" />
         </td>
 
-        <td *ngIf="!response.isEditing">{{ response.medicationDosage }}</td>
+        <td *ngIf="!response.isEditing">{{ response.userSize }}</td>
         <td *ngIf="response.isEditing">
-          <input [(ngModel)]="response.medicationDosage" class="form-control" />
+          <input [(ngModel)]="response.userSize" class="form-control" />
         </td>
 
-        <td *ngIf="!response.isEditing">{{ response.frequency }}</td>
+        <td *ngIf="!response.isEditing">{{ response.userBloodType }}</td>
         <td *ngIf="response.isEditing">
-          <input [(ngModel)]="response.frequency" class="form-control" />
+          <input [(ngModel)]="response.userBloodType" class="form-control" />
         </td>
 
-        <td *ngIf="!response.isEditing">{{ response.medicationDate | date: 'shortDate' }}</td>
+        <td *ngIf="!response.isEditing">{{ response.userComments }}</td>
         <td *ngIf="response.isEditing">
-          <input [(ngModel)]="response.medicationDate" class="form-control" type="date" />
-        </td>
-
-        <td *ngIf="!response.isEditing">{{ response.reminderTime }}</td>
-        <td *ngIf="response.isEditing">
-          <input [(ngModel)]="response.reminderTime" class="form-control" />
+          <input [(ngModel)]="response.userComments" class="form-control" />
         </td>
 
         <td>

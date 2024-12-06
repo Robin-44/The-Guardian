@@ -73,6 +73,8 @@ export class SurveyService {
   deleteUserData(): Observable<any> {
     return this.http.delete(`${this.baseUrl}/delete-user-data`);
   }
-  
+  deletePosology(posologyId: string): Observable<any> {
+    return this.http.delete(`http://localhost:3000/api/posologies/${posologyId}`);
+  } 
 
 }

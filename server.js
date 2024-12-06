@@ -60,12 +60,10 @@ app.post('/api/submit-survey', async (req, res) => {
         userName,
         userAge,
         userGender,
-        medicationName,
-        medicationDosage,
-        medicationForm,
-        frequency,
-        medicationDate,
-        reminderTime
+        userWeight,
+        userSize,
+        userBloodType,
+        userComments
     } = req.body;
 
     try {
@@ -77,12 +75,10 @@ app.post('/api/submit-survey', async (req, res) => {
             userName,
             userAge,
             userGender,
-            medicationName,
-            medicationDosage,
-            medicationForm,
-            frequency,
-            medicationDate,
-            reminderTime,
+            userWeight,
+            userSize,
+            userBloodType,
+            userComments
         });
 
         await surveyResponse.save();
@@ -410,20 +406,20 @@ app.delete('/api/posologies/:id', async (req, res) => {
 app.put('/api/posologies/:id', async (req, res) => {
     const { id } = req.params;
     const updateData = req.body;
-
+  
     try {
-        const updatedPosology = await Posology.findByIdAndUpdate(id, updateData, { new: true });
-
-        if (!updatedPosology) {
-            return res.status(404).json({ error: 'Posologie non trouvée.' });
-        }
-
-        res.status(200).json(updatedPosology);
+      const updatedPosology = await Posology.findByIdAndUpdate(id, updateData, { new: true });
+      
+      if (!updatedPosology) {
+        return res.status(404).json({ error: 'Posologie non trouvée.' });
+      }
+      
+      res.status(200).json(updatedPosology);
     } catch (err) {
-        console.error('Erreur lors de la mise à jour de la posologie :', err);
-        res.status(500).json({ error: 'Erreur interne du serveur.' });
+      console.error('Erreur lors de la mise à jour de la posologie :', err);
+      res.status(500).json({ error: 'Erreur interne du serveur.' });
     }
-});
+  });
 
 // Route pour récupérer les rappels d'un utilisateur
 app.get('/api/affichage/user/:userId', async (req, res) => {
