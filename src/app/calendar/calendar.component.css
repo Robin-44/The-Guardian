@@ -261,6 +261,27 @@ body {
   color: white;
 }
 
+.reminder-tag {
+  background-color: #e0f7fa;
+  color: #00796b;
+  border-radius: 5px;
+  padding: 2px 5px;
+  margin: 2px 0;
+  display: inline-block;
+  font-size: 12px;
+}
+
+.reminder-medication {
+  font-weight: bold;
+}
+
+.reminder-time {
+  margin-left: 5px;
+  font-style: italic;
+  color: #004d40;
+}
+
+
 .confirmation-modal .btn-danger {
   background-color: #dc3545;
   color: white;

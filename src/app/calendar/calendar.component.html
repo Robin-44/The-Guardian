@@ -29,13 +29,15 @@
           <td *ngFor="let day of week" [class.today]="isToday(day.date)" class="clickable-cell"
             (click)="openAddPosologyModal(day.date, $event)">
             <div>
-              <span>{{ day.date | date: 'd' }}</span>
-
               <!-- Affichage des rappels -->
-              <div *ngFor="let reminder of day.reminders">
-                <div class="reminder-item" [class.completed]="reminder.status === 'Completed'">
-                  <p>{{ reminder.medicationName }}</p>
-                  <p>{{ reminder.scheduledTime | date: 'HH:mm' }}</p>
+              <div *ngIf="day.date">
+                <!-- Affichage unique de la date -->
+                <span>{{ day.date | date: 'd' }}</span>
+      
+                <!-- Affichage des rappels -->
+                <div *ngFor="let reminder of day.reminders" class="reminder-tag">
+                  <span class="reminder-medication">{{ reminder.posology.medicationName }}</span>
+                  <span class="reminder-time">{{ reminder.posology.scheduledTime | date: 'HH:mm' }}</span>
                 </div>
               </div>
 

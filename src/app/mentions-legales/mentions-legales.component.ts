@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mentions-legales',
@@ -8,4 +9,10 @@ import { RouterModule } from '@angular/router';
   templateUrl: './mentions-legales.component.html',
   styleUrls: ['./mentions-legales.component.css'] 
 })
-export class MentionsLegalesComponent {}
+export class MentionsLegalesComponent {
+  constructor(private router: Router) {}
+
+  goToProfile(): void {
+    this.router.navigate(['/profile']); 
+  }gi
+}

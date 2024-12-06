@@ -69,7 +69,6 @@ export const routes: Routes = [
   {
     path: 'posology-list',
     component: PosologyListComponent,
-    canActivate: [authGuardFn], 
   }
   
 

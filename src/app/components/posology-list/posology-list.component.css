@@ -8,7 +8,7 @@
   
   /* Titre */
   h2 {
-    color: #5d87ff;
+    color: #0d6efd;
     text-align: center;
     margin-bottom: 20px;
     font-family: 'Arial', sans-serif;
@@ -21,7 +21,7 @@
   }
   
   .table thead {
-    background-color: #5d87ff; /* Couleur d'accentuation */
+    background-color: #0d6efd; /* Couleur d'accentuation */
     color: #ffffff; /* Texte blanc */
   }
   
@@ -29,7 +29,7 @@
     padding: 12px 15px;
     text-align: left;
     border: 1px solid #ddd; /* Bordure légère */
-    background-color: #5d87ff; /* Couleur d'accentuation */
+    background-color: #0d6efd; /* Couleur d'accentuation */
     color: white;
 
   }

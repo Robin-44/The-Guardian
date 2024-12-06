@@ -82,6 +82,10 @@ export class HomeContentComponent implements OnInit {
     this.router.navigate(['/settings']);
   }
 
+  goToPrescriptions(): void {
+    this.router.navigate(['/posology-list']);
+  }
+
   /**
    * Ouvrir le modal de confirmation pour un rappel spécifique
    */

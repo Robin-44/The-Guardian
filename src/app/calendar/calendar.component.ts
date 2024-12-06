@@ -93,7 +93,7 @@ export class CalendarComponent implements OnInit {
   loadReminders(): void {
     this.auth.user$.subscribe((user) => {
       if (user) {
-        this.surveyService.getReminders(user.sub).subscribe({
+        this.surveyService.getAffichage(user.sub).subscribe({
           next: (reminders) => {
             console.log('Rappels chargés :', reminders);
             this.reminders = reminders;
@@ -113,48 +113,51 @@ export class CalendarComponent implements OnInit {
   /**
    * Build calendar structure with reminders.
    */
-  buildCalendar(): void {
+   buildCalendar(): void {
     const startOfMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1);
     const endOfMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
-
+  
     const calendar = [];
     let week = [];
     let date = new Date(startOfMonth);
-
+  
+    // Ajouter les jours vides avant le début du mois
     while (date.getDay() !== 0) {
       week.push({ date: null, reminders: [] });
       date.setDate(date.getDate() - 1);
     }
-
+  
+    // Remplir le calendrier avec les jours du mois
     date = startOfMonth;
-
     while (date <= endOfMonth) {
-      const dayReminders = this.reminders.filter((reminder) =>
+      const dayReminders = this.reminders?.filter((reminder) =>
         new Date(reminder.posology.scheduledTime).toDateString() === date.toDateString()
-      );
-
+      ) || [];
+  
       const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-
+  
       week.push({ date: localDate, reminders: dayReminders });
-
+  
       if (week.length === 7) {
         calendar.push(week);
         week = [];
       }
-
+  
       date.setDate(date.getDate() + 1);
     }
-
+  
+    // Ajouter les jours vides après la fin du mois
     while (week.length < 7) {
       week.push({ date: null, reminders: [] });
     }
-
+  
     if (week.length) {
       calendar.push(week);
     }
-
+  
     this.calendar = calendar;
   }
+  
 
   /**
    * Navigate to the previous month.

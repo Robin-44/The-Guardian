@@ -97,8 +97,14 @@
         </div>
         <div class="col-md-6">
           <p class="fs-5">
-            Si vous souhaitez supprimer vos données personnelles, cliquez sur le bouton ci-dessous. Votre demande sera traitée dans un délai de 30 jours conformément au RGPD.
+            Si vous souhaitez supprimer vos données personnelles, cliquez sur le bouton ci-dessous pour le faire dans votre profil. Votre demande sera traitée dans un délai de 30 jours conformément au RGPD.
           </p>
+          <div class="d-flex justify-content-between mt-4">
+            <!-- Bouton pour accéder au profil -->
+            <button class="btn btn-primary" (click)="goToProfile()">
+              <i class="fas fa-user"></i> Supprimer mes données
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -122,23 +128,7 @@
       </div>
     </section>
   
-    <hr />
+    <hr/>
   
-    <!-- Section 7: Nous contacter -->
-    <section>
-      <h2 class="text-primary">Nous contacter</h2>
-      <div class="row align-items-center">
-        <div class="col-md-6 order-md-2">
-          <img src="assets/contact.jpg" alt="Contactez-nous" class="img-fluid rounded">
-        </div>
-        <div class="col-md-6">
-          <p class="fs-5">Pour toute question concernant vos données personnelles :</p>
-          <ul class="fs-5">
-            <li><strong>Email :</strong> equipe&#64;theguardian.com</li>
-            <li><strong>Téléphone :</strong> +33 6 59 92 47 46</li>
-          </ul>
-        </div>
-      </div>
-    </section>
   </div>
 </div>
