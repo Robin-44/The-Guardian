@@ -8,8 +8,9 @@ WORKDIR /app
 
 COPY package.json .
 COPY package-lock.json .
+COPY auth_config.json .
 
-RUN npm install --legacy-peer-deps
+RUN npm install --legacy-peer-deps --force
 
 COPY . .
 
@@ -25,8 +26,11 @@ WORKDIR /app
 
 COPY package.json .
 COPY package-lock.json .
+COPY auth_config.json .
 
-RUN npm install --production --legacy-peer-deps
+
+RUN npm install --production --legacy-peer-deps --force
+
 
 COPY --from=build ./app/dist/login-demo ./dist
 COPY ./server.js .
