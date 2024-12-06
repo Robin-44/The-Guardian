@@ -1,8 +1,8 @@
 {
-  "domain": "dev-3l1s0tdksyk70xhr.us.auth0.com",
-  "clientId": "PAbE2K6vEiqyqpltuqrMpeGl5pUxWMvJ",
+  "domain": "dev-6ah8h8m1u2qzlhdw.us.auth0.com",
+  "clientId": "FLdZnaoFaCijXdyqMu1B2dJB1abGguH0",
   "authorizationParams": {
-    "audience": "https://dev-3l1s0tdksyk70xhr.us.auth0.com/api/v2/"
+    "audience": "https://the_guardian"
   },
   "apiUri": "http://localhost:3001",
   "appUri": "http://localhost:4200",
