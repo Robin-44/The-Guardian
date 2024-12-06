@@ -1,83 +1,123 @@
-# Auth0 Angular SDK sample
+The Guardian - Angular and Node.js Application
 
-This sample app demonstrates the integration of the [Auth0 Angular SDK](https://github.com/auth0/auth0-angular) into an Angular application created using the Angular CLI. This sample is a companion to the [Auth0 Angular SDK Quickstart](https://auth0.com/docs/quickstart/spa/angular).
+This project demonstrates an advanced medication reminder system using Angular for the frontend and Node.js with Express for the backend. The app integrates features like user authentication using Auth0, notification management with Web Push, and robust backend logic using MongoDB for data storage.
 
-This sample demonstrates the following use cases:
+Features
 
-- Login
-- Log out
-- Showing the user profile
-- Protecting routes using the authentication guard
-- Calling APIs with automatically-attached bearer tokens
+Authentication
+Login and Logout: The app integrates Auth0 Angular SDK to handle user authentication seamlessly.
+Profile Management: Displays user information fetched from Auth0.
+Route Protection: Ensures secure access to protected routes using an authentication guard.
+Medication Reminders
+Survey Form: Allows users to input medication details, including dosage, frequency, and reminder timings.
+Reminder Notifications:
+Initial Reminders: Notify users when it's time to take their medication.
+Follow-Up Reminders: Resend notifications if no action is taken.
+Service Worker Integration: Handles notifications via a custom service worker for reliability and performance.
+User Dashboard
+List of Medications: Displays all recorded medications with their respective reminders.
+Update and Delete: Users can edit or delete their data.
+Data Export: Download user data as Excel or PDF files.
+Privacy and Security
+User Data Management: Users can request data deletion, which removes all associated information, including reminders and subscriptions.
+JWT Authentication: Secures API routes to ensure only authorized users can access sensitive data.
+Backend Services
+MongoDB Integration: Data storage for users, medications, reminders, and subscriptions.
+Express Middleware: Handles authentication, data validation, and error handling.
+Web Push API: Sends real-time notifications to users for reminders.
+Setup and Configuration
 
-## Configuration
+1. Prerequisites
+Ensure you have the following installed:
 
-The sample needs to be configured with your Auth0 domain and client ID in order to work. In the root of the sample, copy `auth_config.json.example` and rename it to `auth_config.json`. Open the file and replace the values with those from your Auth0 tenant:
+Node.js and npm
+MongoDB
+Angular CLI
+2. Clone the Repository
+bash
+Copier le code
+git clone <repository-url>
+cd project-directory
+3. Configure Environment Variables
+Create a .env file in the root of your project with the following:
 
-```json
+bash
+Copier le code
+MONGO_URI=<Your MongoDB URI>
+JWT_SECRET=<Your JWT Secret>
+VAPID_PUBLIC_KEY=<Your VAPID Public Key>
+VAPID_PRIVATE_KEY=<Your VAPID Private Key>
+4. Auth0 Configuration
+Create an auth_config.json file in the project root:
+
+json
+Copier le code
 {
   "domain": "<YOUR AUTH0 DOMAIN>",
   "clientId": "<YOUR AUTH0 CLIENT ID>",
   "audience": "<YOUR AUTH0 API AUDIENCE IDENTIFIER>"
 }
-```
+5. Install Dependencies
+npm install
 
-## Development server
+6. Run the Application
+Development Mode:
+npm run dev
+Backend: Runs on http://localhost:3000
+Frontend: Runs on http://localhost:4200
+Production Mode:
 
-Run `npm run dev` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+npm run prod
+Both frontend and backend run on http://localhost:3000
+7. Docker Support
+Build and run the app in a Docker container:
 
-This will automatically start a Node + Express server as the backend on port `3001`. The Angular application is configured to proxy through to this on any `/api` route.
+How the App Works
 
-## Build
+1. Service Worker Collaboration
+The custom service worker intercepts push notifications, listens for notificationclick events, and forwards data to the Angular app.
+The Angular app uses the data to navigate users to specific routes or open modals.
+2. Backend API
+Protected Routes: APIs use Gurad for secure user-specific data access.
+Notification Management:
+The backend sends Web Push notifications for reminders using node-cron for scheduling.
+Data Operations:
+CRUD operations for user responses, reminders, and subscriptions.
+3. Frontend
+Auth0 SDK: Simplifies authentication and user management.
+Angular Services: Facilitates API communication and state management.
+Responsive Design: Built with Bootstrap for a polished user experience.
+Build and Deployment
 
-Run `npm build` to build the project. The build artifacts will be stored in the `dist/login-demo` directory. Use the `--prod` flag for a production build.
+1. Build the Project
+The build artifacts will be stored in the dist/ directory.
 
-To build and run a production bundle and serve it, run `npm run prod`. The application will run on `http://localhost:3000`.
+2. Deploy
+Use services like Heroku, Netlify, or Vercel for deployment.
+Ensure MongoDB is hosted on MongoDB Atlas or another cloud provider.
+Usage
 
-## Run Using Docker
+Key Technologies
 
-You can build and run the sample in a Docker container by using the provided scripts:
+Frontend: Angular, Auth0 SDK, Bootstrap
+Backend: Node.js, Express, MongoDB
+Notifications: Web Push API, Service Worker
+Authentication: Guard, Auth0
+Scheduling: Node-cron
+Contributing
 
-```bash
-# In Linux / MacOS
-sh exec.sh
+Fork the repository.
+Submit pull requests for features or bug fixes.
 
-# Windows Powershell
-./exec.ps1
-```
+FAQ
 
-## Further help
+What happens if I delete my data?
+All associated data, including reminders, subscriptions, and survey responses, are permanently deleted.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/main/README.md).
+Why use Guard for authentication?
+Guard provides stateless, secure, and scalable authentication for APIs.
 
-## Frequently Asked Questions
+How are notifications managed?
+Notifications are sent using Web Push API and are managed by a custom service worker.
 
-We are compiling a list of questions and answers regarding the new JavaScript SDK - if you're having issues running the sample applications, [check the FAQ](https://github.com/auth0/auth0-spa-js/blob/main/FAQ.md)!
-
-# What is Auth0?
-
-Auth0 helps you to:
-
-- Add authentication with [multiple authentication sources](https://auth0.com/docs/identityproviders), either social like **Google, Facebook, Microsoft Account, LinkedIn, GitHub, Twitter, Box, Salesforce, among others**, or enterprise identity systems like **Windows Azure AD, Google Apps, Active Directory, ADFS or any SAML Identity Provider**.
-- Add authentication through more traditional **[username/password databases](https://auth0.com/docs/connections/database/custom-db/create-db-connection)**.
-- Add support for **[linking different user accounts](https://auth0.com/docs/users/user-account-linking)** with the same user.
-- Support for generating signed [Json Web Tokens](https://auth0.com/docs/tokens/json-web-tokens) to call your APIs and **flow the user identity** securely.
-- Analytics of how, when and where users are logging in.
-- Pull data from other sources and add it to the user profile, through [JavaScript rules](https://auth0.com/docs/rules).
-
-## Create a Free Auth0 Account
-
-1. Go to [Auth0](https://auth0.com/signup) and click Sign Up.
-2. Use Google, GitHub or Microsoft Account to login.
-
-## Issue Reporting
-
-If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
-
-## Author
-
-[Auth0](https://auth0.com)
-
-## License
-
-This project is licensed under the MIT license. See the [LICENSE](../LICENSE) file for more info.
+For further questions, open an issue on the repository!
