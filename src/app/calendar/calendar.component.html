@@ -32,7 +32,7 @@
               <!-- Affichage des rappels -->
               <div *ngIf="day.date">
                 <!-- Affichage unique de la date -->
-                <span>{{ day.date | date: 'd' }}</span>
+                <span>{{ day.date | date: 'd' }}</span>&nbsp;
       
                 <!-- Affichage des rappels -->
                 <div *ngFor="let reminder of day.reminders" class="reminder-tag">
