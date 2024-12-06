@@ -14,5 +14,5 @@ export class MentionsLegalesComponent {
 
   goToProfile(): void {
     this.router.navigate(['/profile']); 
-  }gi
+  }
 }
