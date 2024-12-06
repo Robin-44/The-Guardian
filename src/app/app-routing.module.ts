@@ -6,6 +6,12 @@ import { ErrorComponent } from './pages/error/error.component';
 import { authGuardFn } from '@auth0/auth0-angular';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { SurveyFormComponent } from './survey-form/survey-form.component';
+import { CalendarComponent } from './calendar/calendar.component';
+import { SettingsComponent } from './settings/settings.component';
+import { MentionsLegalesComponent } from './mentions-legales/mentions-legales.component';
+import { HomeContentComponent } from './components/home-content/home-content.component'; 
+import { PosologyListComponent } from './components/posology-list/posology-list.component';
+
 
 export const routes: Routes = [
   {
@@ -33,9 +39,37 @@ export const routes: Routes = [
     canActivate: [authGuardFn],
   },
   {
-    path: 'survey-form', 
+    path: 'survey-form',
     component: SurveyFormComponent,
-    canActivate: [authGuardFn], 
+    canActivate: [authGuardFn],
   },
-  { path: '**', redirectTo: '/survey-form' },
+  {
+    path: 'calendar',
+    component: CalendarComponent,
+    canActivate: [authGuardFn],
+  },
+
+  {
+    path: 'settings',
+    component: SettingsComponent,
+    canActivate: [authGuardFn]
+  },
+
+
+  {
+    path: 'mentions-legales',
+    component: MentionsLegalesComponent,
+  },
+
+  {
+    path: 'home-content',
+    component: HomeContentComponent,
+  },
+
+  {
+    path: 'posology-list',
+    component: PosologyListComponent,
+  }
+  
+
 ];

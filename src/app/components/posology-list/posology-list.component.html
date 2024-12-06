@@ -1,0 +1,20 @@
+<div class="container mt-4">
+    <h2>Liste de vos Posologies</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Médicament</th>
+          <th>Heure Programmée</th>
+          <th>Rappel Pris</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let posology of posologies">
+          <td>{{ posology.medicationName }}</td>
+          <td>{{ posology.scheduledTime | date: 'short' }}</td>
+          <td>{{ posology.taken ? 'Oui' : 'Non' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

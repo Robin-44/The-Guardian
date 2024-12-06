@@ -1,101 +1,41 @@
-/* Étape circulaire (progression) */
+/* Centrer et limiter la taille du formulaire */
+.container {
+  max-width: 60%;
+  margin: auto;
+  font-size: 1.2rem; /* Augmente la taille du texte global */
+}
+
+/* Bulles de progression */
 .step-container {
-  justify-content: center;
-  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
 
 .step-circle {
   width: 40px;
   height: 40px;
-  background-color: #ddd;
+  line-height: 40px;
   border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 18px;
+  background-color: #e0e0e0;
+  color: #6c757d;
+  font-weight: bold;
+  text-align: center;
   cursor: pointer;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .step-circle.active {
-  background-color: #5d87ff;
+  background-color: #007bff;
   color: white;
 }
 
 .step-circle:hover {
-  background-color: #5bc0de;
+  background-color: #0056b3;
+  color: white;
 }
 
-/* Formulaire */
-.card {
-  padding: 30px;
-  background-color: white;
-  border-radius: 10px;
-}
-
-.form-step {
-  /* Zone centrée mais contenu non centré */
-  margin: 0 auto;
-  width: 100%;
-  max-width: 600px;
-  padding: 20px;
-}
-
-h5 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  text-align: left; /* Pas centré pour la question */
-}
-
-.form-label {
-  font-size: 1.2rem;
-  text-align: left; /* Pas centré */
-}
-
-.form-control {
-  font-size: 1.1rem;
-  padding: 10px;
-}
-
-.form-control-sm {
-  font-size: 1rem;
-  padding: 8px;
-}
-
-button {
-  width: 180px;
-  font-size: 1.1rem;
-  padding: 10px;
-  margin: 10px 5px;
-  border-radius: 5px;
-}
-
-.btn-primary {
-  background-color: #5d87ff;
-  border-color: #5d87ff;
-}
-
-.btn-secondary {
-  background-color: #6c757d;
-  border-color: #6c757d;
-}
-
-.btn-success {
-  background-color: #5d87ff;
-  border-color: #5d87ff;
-}
-
-/* Barres de progression */
+/* Progrès de la barre */
 .progress-bar {
-  background-color: #5d87ff;
-  height: 4px;
-  transition: width 0.3s;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.text-left {
-  text-align: left;
+  transition: width 0.3s ease-in-out;
 }

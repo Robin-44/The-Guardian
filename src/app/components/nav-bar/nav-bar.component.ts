@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { faUser, faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPowerOff, faCalendar, faHome } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '@auth0/auth0-angular';
 import { AsyncPipe, DOCUMENT, NgIf } from '@angular/common';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -33,6 +33,8 @@ export class NavBarComponent {
   isCollapsed = true;
   faUser = faUser;
   faPowerOff = faPowerOff;
+  faCalendar = faCalendar;
+  faHome = faHome;
 
   constructor(
     public auth: AuthService,
@@ -42,32 +44,17 @@ export class NavBarComponent {
   ) {}
 
   ngOnInit(): void {
-    // Vérifiez si l'utilisateur est authentifié et récupérez son email
-    this.auth.user$.subscribe(user => {
+    this.auth.user$.subscribe((user) => {
       if (user) {
-        const userEmail = user.email;  // Récupérer l'email de l'utilisateur
-        console.log('Email utilisateur:', userEmail);
-
-        // Appel pour ajouter l'utilisateur dans la base de données
-        this.addUser(userEmail);
+        this.surveyService.authUser(user.sub).subscribe((response) => {
+          if (!response.surveyCompleted) {
+            this.router.navigate(['/survey-form']);
+          }
+        });
       }
     });
   }
-
-  addUser(userEmail: string) {
-    // Créez un objet avec l'email de l'utilisateur à envoyer à l'API
-    const newUser = { userId: userEmail };
-
-    // Appel au service pour ajouter l'utilisateur dans la base de données
-    this.surveyService.addUser(newUser).subscribe(
-      (response) => {
-        console.log('Utilisateur ajouté avec succès');
-      },
-      (error) => {
-        console.error('Erreur lors de l\'ajout de l\'utilisateur:', error);
-      }
-    );
-  }
+  
 
   loginWithRedirect() {
     this.auth.loginWithRedirect();

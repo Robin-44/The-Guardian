@@ -1,0 +1,76 @@
+<!-- Main Content -->
+<div class="content">
+  <div class="calendar-container">
+    <br>
+    <h2>CALENDRIER DE PRISE DE MÉDICAMENTS</h2>
+    <br>
+    <!-- Navigation pour changer de mois -->
+    <div class="calendar-navigation">
+      <button (click)="previousMonth()">&#8249; Mois précédent</button>
+      <h3>{{ currentMonth | date: 'MMMM yyyy':'':'fr' }}</h3>
+      <button (click)="nextMonth()">&#8250; Mois suivant</button>
+    </div>
+
+    <!-- Tableau du calendrier -->
+    <table class="calendar-table">
+      <thead>
+        <tr>
+          <th>Dim</th>
+          <th>Lun</th>
+          <th>Mar</th>
+          <th>Mer</th>
+          <th>Jeu</th>
+          <th>Ven</th>
+          <th>Sam</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let week of calendar">
+          <td *ngFor="let day of week" [class.today]="isToday(day.date)" class="clickable-cell"
+            (click)="openAddPosologyModal(day.date, $event)">
+            <div>
+              <!-- Affichage des rappels -->
+              <div *ngIf="day.date">
+                <!-- Affichage unique de la date -->
+                <span>{{ day.date | date: 'd' }}</span>
+      
+                <!-- Affichage des rappels -->
+                <div *ngFor="let reminder of day.reminders" class="reminder-tag">
+                  <span class="reminder-medication">{{ reminder.posology.medicationName }}</span>
+                  <span class="reminder-time">{{ reminder.posology.scheduledTime | date: 'HH:mm' }}</span>
+                </div>
+              </div>
+
+              <!-- Modal -->
+              <div *ngIf="showModal" class="inline-modal" [style.top]="modalPosition.top"
+                [style.left]="modalPosition.left">
+                <div class="modal-header">
+                  <h5 class="modal-title">Ajouter une posologie</h5>
+                  <button type="button" class="btn-close" (click)="closeModal()"></button>
+                </div>
+                <div class="modal-body">
+                  <form (ngSubmit)="savePosology()">
+                    <div class="mb-3">
+                      <label for="medicationName" class="form-label">Nom du médicament</label>
+                      <input type="text" id="medicationName" class="form-control" [(ngModel)]="posology.medicationName"
+                        name="medicationName" required />
+                    </div>
+                    <div class="mb-3">
+                      <label for="scheduledTime" class="form-label">Date et Heure</label>
+                      <input type="datetime-local" id="scheduledTime" class="form-control"
+                        [(ngModel)]="posology.scheduledTime" name="scheduledTime" required />
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+

@@ -1,0 +1,70 @@
+/* Styles personnalisés */
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #ffffff;
+}
+
+.ressources {
+    font-size: 12px;
+    margin-left: 30px;
+    color: rgba(65, 64, 64, 0.87);
+}
+
+.sidebar .footer {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #bdc3c7;
+}
+
+/* Contenu principal */
+.content {
+    padding: 30px;
+    transition: 0.3s;
+}
+
+.dashboard-header {
+    font-size: 2rem;
+    color: #5d87ff;
+    margin-bottom: 30px;
+}
+
+/* Style des cartes */
+.card {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: white;
+    margin-bottom: 20px;
+    border: 2px solid rgb(255, 255, 255);
+
+}
+
+/* Boutons personnalisés */
+.btn-primary-custom {
+    background-color: #5d87ff;
+    border-color: #5d87ff;
+    border-color: #5d87ff;
+    color: #ffffff;
+}
+
+.btn-primary-custom:hover {
+    background-color: #5d87ff;
+    border-color: #5d87ff;
+    color: #ffffff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .content {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .sidebar {
+        position: static;
+        height: auto;
+        width: 100%;
+    }
+}

@@ -1,22 +1,120 @@
-<div class="container mt-5" *ngIf="auth.user$ | async as user">
-  <div
-    class="row align-items-center profile-header mb-5 text-center text-md-left"
-  >
-    <div class="col-md-2">
-      <img
-        [src]="user.picture"
-        class="rounded-circle img-fluid profile-picture mb-3 mb-md-0"
-      />
-    </div>
-    <div class="col-md">
-      <h2>{{ user.name }}</h2>
-      <p class="lead text-muted">{{ user.email }}</p>
-    </div>
-  </div>
+<div class="container mt-5">
+  <h1 class="text-center mb-4" style="color:#0d6efd ;">Réponses au formulaire</h1>
 
-  <div class="row" *ngIf="profileJson">
-    <pre
-      class="rounded"
-    ><code class="json" [highlight]="profileJson"></code></pre>
+  <table class="table table-hover">
+    <thead style="background-color: #0d6efd; color: white;">
+      <tr>
+        <th>Nom</th>
+        <th>Âge</th>
+        <th>Sexe</th>
+        <th>Médicament</th>
+        <th>Dosage</th>
+        <th>Fréquence</th>
+        <th>Date de début</th>
+        <th>Heure de rappel</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let response of surveyResponses">
+        <td *ngIf="!response.isEditing">{{ response.userName }}</td>
+        <td *ngIf="response.isEditing">
+          <input [(ngModel)]="response.userName" class="form-control" />
+        </td>
+
+        <td *ngIf="!response.isEditing">{{ response.userAge }}</td>
+        <td *ngIf="response.isEditing">
+          <input [(ngModel)]="response.userAge" class="form-control" type="number" />
+        </td>
+
+        <td *ngIf="!response.isEditing">{{ response.userGender }}</td>
+        <td *ngIf="response.isEditing">
+          <input [(ngModel)]="response.userGender" class="form-control" />
+        </td>
+
+        <td *ngIf="!response.isEditing">{{ response.medicationName }}</td>
+        <td *ngIf="response.isEditing">
+          <input [(ngModel)]="response.medicationName" class="form-control" />
+        </td>
+
+        <td *ngIf="!response.isEditing">{{ response.medicationDosage }}</td>
+        <td *ngIf="response.isEditing">
+          <input [(ngModel)]="response.medicationDosage" class="form-control" />
+        </td>
+
+        <td *ngIf="!response.isEditing">{{ response.frequency }}</td>
+        <td *ngIf="response.isEditing">
+          <input [(ngModel)]="response.frequency" class="form-control" />
+        </td>
+
+        <td *ngIf="!response.isEditing">{{ response.medicationDate | date: 'shortDate' }}</td>
+        <td *ngIf="response.isEditing">
+          <input [(ngModel)]="response.medicationDate" class="form-control" type="date" />
+        </td>
+
+        <td *ngIf="!response.isEditing">{{ response.reminderTime }}</td>
+        <td *ngIf="response.isEditing">
+          <input [(ngModel)]="response.reminderTime" class="form-control" />
+        </td>
+
+        <td>
+          <button class="btn btn-primary btn-sm" *ngIf="!response.isEditing" (click)="editResponse(response)">
+            Modifier
+          </button>
+          <button class="btn btn-success btn-sm" *ngIf="response.isEditing" (click)="saveResponse(response)">
+            Enregistrer
+          </button>
+          <button class="btn btn-danger btn-sm" *ngIf="response.isEditing" (click)="cancelEdit(response)">
+            Annuler
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="alert alert-warning mt-5" role="alert">
+    <h4 class="alert-heading">Attention !</h4>
+    <p>
+      Si vous supprimez vos données, toutes les informations associées à votre compte seront
+      définitivement effacées : vos réponses au formulaire, vos rappels, vos posologies, et vos
+      souscriptions aux notifications. Vous serez également déconnecté.
+    </p>
+    <hr />
+    <button class="btn btn-danger mt-3" (click)="deleteUserData()">
+      <i class="fas fa-trash-alt"></i> Supprimer mes données
+    </button>
   </div>
+<br>
+<br>
+<h1 class="text-center mb-4" style="color:#0d6efd ;">Les informations récupérées lors de votre connection</h1>
+    <table id="tableau" class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th class="d-flex justify-content-start align-items-center" scope="col">Nom du champ</th>
+          <th scope="col">Valeur</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Photo</td>
+          <td><img [src]="user.picture" class="rounded-circle img-fluid profile-picture mb-3 mb-md-0" /></td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Nom</td>
+          <td>{{ user.given_name }}</td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Prenom</td>
+          <td>{{ user.family_name }}</td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Date de création</td>
+          <td>{{ user.updated_at }}</td>
+        </tr>
+        <tr>
+          <td class="d-flex justify-content-start align-items-center">Email</td>
+          <td>{{ user.email }}</td>
+        </tr>
+      </tbody>
+    </table>
 </div>

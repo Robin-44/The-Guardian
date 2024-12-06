@@ -6,23 +6,73 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class SurveyService {
+  private baseUrl = 'http://localhost:3000/api';
 
-  private apiUrl = 'http://localhost:3000/api/add-user';  // URL de l'API en local
+  constructor(private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {}
-
-  // Fonction pour ajouter un utilisateur
-  addUser(newUser: { userId: string }): Observable<any> {
-    return this.http.post(this.apiUrl, newUser);
+  authUser(token: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth-user`, { token });
   }
 
-  // Vérifier le statut du formulaire
-  checkSurvey(userId: string): Observable<{ surveyCompleted: boolean }> {
-    return this.http.get<{ surveyCompleted: boolean }>(`${this.apiUrl}/survey-status/${userId}`);
+  submitForm(surveyData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/submit-survey`, surveyData);
   }
 
-  // Soumettre le formulaire
-  submitForm(formData: { userId: string; allergies: string; exercise: string; diet: string }): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/submit-form`, formData);
+  saveSubscription(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/subscribe`, data);
   }
+
+  removeSubscription(token: string): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/unsubscribe/${token}`);
+  }
+
+  getSubscriptionStatus(token: string): Observable<{ isSubscribed: boolean }> {
+    return this.http.get<{ isSubscribed: boolean }>(`${this.baseUrl}/subscription-status/${token}`);
+  }
+
+  addPosology(data: any): Observable<any> {
+    const utcDate = new Date(data.scheduledTime).toISOString();
+    const payload = { ...data, scheduledTime: utcDate };
+    return this.http.post(`${this.baseUrl}/posology`, payload);
+  }
+
+
+  handleNotificationResponse(data: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/notification-response`, data);
+  }
+
+  remindLater(reminderId: string): Observable<any> {
+    const payload = { reminderId, action: 'remind' };
+    return this.http.post(`${this.baseUrl}/notification-response`, payload);
+  }
+
+  getReminders(reminderId: string): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/reminder/${reminderId}`);
+  }
+
+  updateReminder(reminderId: string, action: 'confirm' | 'ignore'): Observable<any> {
+    return this.http.post(`${this.baseUrl}/reminder/${reminderId}/action`, { action });
+  }
+
+  getUserPosologies(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/user-posologies/${userId}`);
+  }
+
+  getAffichage(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/affichage/user/${userId}`);
+  }
+
+  getSurveyResponses(userId: string): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/survey-responses/${userId}`);
+  }
+
+  updateSurveyResponse(id: string, data: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/survey-response/${id}`, data);
+  }
+
+  deleteUserData(): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/delete-user-data`);
+  }
+  
+
 }
